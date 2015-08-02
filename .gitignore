@@ -1,0 +1,6 @@
+**/*.swap
+**/*~
+**/*#
+**/*.png
+node_modules/
+build/

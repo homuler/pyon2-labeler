@@ -28,7 +28,8 @@ function toggleGuideWire() {
       throw ('CanvasBag is not initialized yet.');
    }
    console.log('called toggleGuideWire');
-   _canvasBag.canvas.guidewire = !_canvasBag.canvas.guidewire;
+   _canvasBag.canvas.settings.guide.on = 
+      !_canvasBag.canvas.settings.guide.on;
 }
 
 function redoDrawing() {
@@ -42,28 +43,29 @@ function switchAspectFixMode() {
    if (_canvasBag.canvas == null) {
       throw ('CanvasBag is not initialized yet.');
    }
-   _canvasBag.canvas.aspectFix = !_canvasBag.canvas.aspectFix;
+   _canvasBag.canvas.settings.aspect.fix = 
+      !_canvasBag.canvas.settings.aspect.fix;
 }
 
 function changeAspectRatio(obj) {
    if (_canvasBag.canvas == null) {
       throw ('CanvasBag is not initialized yet.');
    }
-   _canvasBag.canvas.aspectRatio = obj;
+   _canvasBag.canvas.settings.aspect.ratio = obj;
 }
 
 function changeFigureColor(obj) {
    if (_canvasBag.canvas == null) {
       throw ('CanvasBag is not initialized yet.');
    }
-   _canvasBag.canvas.currentFigure.color = obj;
+   _canvasBag.canvas.state.currentFigure.color = obj;
 }
 
 function changeLineWidth(obj) {
    if (_canvasBag.canvas == null) {
       throw ('CanvasBag is not initialized yet.');
    }
-   _canvasBag.canvas.currentFigure.lineWidth = obj.lineWidth;
+   _canvasBag.canvas.state.currentFigure.lineWidth = obj.lineWidth;
 }
 
 function changeFileFormat(obj) {

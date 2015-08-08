@@ -52,11 +52,11 @@ export class MainApp extends React.Component {
             <CanvasController 
                mode={this.state.controller.mode}
                format={this.state.controller.format} 
-               figure={firstRender ? defaultFigure : this.state.canvas.currentFigure} 
-               guidewire={firstRender ? true : this.state.canvas.guidewire}
-               figureAspectFix={firstRender ? false : this.state.canvas.aspectFix}
-               figureAspectRatio={firstRender ? null : this.state.canvas.aspectRatio} />
-            <canvas id='pict-canvas' width='1120px' height='630px'></canvas>
+               figure={firstRender ? defaultFigure : this.state.canvas.state.currentFigure} 
+               guidewire={firstRender ? true : this.state.canvas.settings.guide.on}
+               figureAspectFix={firstRender ? false : this.state.canvas.settings.aspect.fix}
+               figureAspectRatio={firstRender ? null : this.state.canvas.settings.aspect.ratio} />
+            <canvas id='pict-canvas' width='1120' height='630'></canvas>
             <OutputViewer format={this.state.controller.format} />
          </div>
       );

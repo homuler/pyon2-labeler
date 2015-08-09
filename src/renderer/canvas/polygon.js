@@ -1,5 +1,7 @@
 'use strict';
 
+import * as util from './canvas-util';
+
 export class Rectangle {
    constructor(left, top, width, height, color = null, lineWidth = null) {
       this.left = left;
@@ -42,7 +44,6 @@ export class Rectangle {
       for (let i in ys) {
          for (let j in xs) {
             let x = xs[j], y = ys[i];
-            console.log(stretchPoint, i * xs.length + (+j));
             if (stretchPoint < 0 || stretchPoint == i * xs.length + (+j)) {
                ctx.beginPath();
                ctx.arc(x, y, this.focusRadius, 0, 2 * Math.PI, false);
@@ -51,6 +52,7 @@ export class Rectangle {
          }
       }
       ctx.restore();
+      this.drawLabel(ctx);
    }
    findStretchPoint(ctx, loc) {
       var xs = this.enumFocusX(),
@@ -65,9 +67,18 @@ export class Rectangle {
             }
          }
       }
+      var rect = this.getLabelRect(ctx);
+      ctx.beginPath();
+      ctx.rect(rect.left, rect.top, rect.width, rect.height);
+      if (ctx.isPointInPath(loc.x, loc.y)) {
+         return 9;
+      }
       return -1;
    }
-   transform(loc, idx) {
+   transform(loc, idx, aspect = null) {
+      if (idx < 0 || idx > 8) {
+         return;
+      }
       var n = Math.floor(idx / 3),
           r = idx % 3;
       if (n == 0) {
@@ -97,9 +108,16 @@ export class Rectangle {
          this.height = -this.height;
       }
 
+      if (aspect !== null) {
+         this.fixAspect(aspect);
+      }
    }
-   fixAspect() {
-
+   fixAspect(aspect) {
+      if (aspect.x < aspect.y) {
+         this.height = this.width * aspect.y / aspect.x;
+      } else {
+         this.width = this.height * aspect.x / aspect.y;
+      }
    }
    stretchHorizontal(loc, fixLeft = true) {
       if (fixLeft) {
@@ -120,7 +138,7 @@ export class Rectangle {
    draw(ctx) {
       ctx.save();
       if (this.color !== null) {
-         ctx.strokeStyle = this.color;
+         ctx.strokeStyle = util.rgbaToString(this.color);
       }
       if (this.lineWidth !== null) {
          ctx.lineWidth = this.lineWidth;
@@ -132,5 +150,32 @@ export class Rectangle {
       this.move(offset.x, offset.y);
       this.draw(ctx);
       this.move(-offset.x, -offset.y);
+   }
+   getLabelRect(ctx) {
+      return {
+         left: this.left + this.focusRadius + 5,
+         top: this.top - 30,
+         width: Math.min(this.width - this.focusRadius - 5, 
+               50 + ctx.measureText(this.label).width),
+         height: 30
+      };
+   }
+   drawLabel(ctx, edit = false) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.font = '20px Palatino';
+
+      var rect = this.getLabelRect(ctx);
+      ctx.fillStyle = util.rgbaToString(this.color);
+      ctx.fillRect(rect.left, rect.top, rect.width, rect.height);
+      ctx.fillStyle = 'white';
+      if (edit) {
+         ctx.fillStyle = 'white';
+         ctx.fillRect(rect.left+25, rect.top, rect.width-50, rect.height);
+      }
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      ctx.strokeText(this.label || 'label', rect.left + rect.width/2, rect.top + 15);
+      ctx.restore();
    }
 }

@@ -70,14 +70,29 @@ function changeFigureColor(obj) {
    if (_canvasBag.canvas == null) {
       throw ('CanvasBag is not initialized yet.');
    }
-   _canvasBag.canvas.state.currentFigure.color = obj;
+   _canvasBag.canvas.settings.stroke.color = obj;
+   if (_canvasBag.canvas.state.currentFigure.figure) {
+      _canvasBag.canvas.state.currentFigure.figure.color = obj;
+   }
 }
 
 function changeLineWidth(obj) {
    if (_canvasBag.canvas == null) {
       throw ('CanvasBag is not initialized yet.');
    }
-   _canvasBag.canvas.state.currentFigure.lineWidth = obj.lineWidth;
+   _canvasBag.canvas.settings.stroke.lineWidth = obj.lineWidth;
+   if (_canvasBag.canvas.state.currentFigure.figure) {
+      _canvasBag.canvas.state.currentFigure.figure.lineWidth = obj.lineWidth;
+   }
+}
+
+function changeLabel(obj) {
+   if (_canvasBag.canvas == null) {
+      throw ('CanvasBag is not initialized yet.');
+   }
+   if (_canvasBag.canvas.state.currentFigure.figure) {
+      _canvasBag.canvas.state.currentFigure.figure.label = obj.label;
+   }
 }
 
 function changeFileFormat(obj) {
@@ -109,6 +124,11 @@ export var canvasAppStore = new CanvasAppStore();
 
 CanvasAppDispatcher.register((action) => {
    switch(action.actionType) {
+      case CanvasAppConstants.INITIALIZE_CANVAS:
+         canvasAppStore.setCanvasBag(action.value);
+         canvasAppStore.emitChange();
+         break;
+
       case CanvasAppConstants.SWITCH_CANVAS_MODE:
          switchCanvasMode(action.value);
          canvasAppStore.emitChange();
@@ -120,11 +140,18 @@ CanvasAppDispatcher.register((action) => {
          break;
       case CanvasAppConstants.CHANGE_FIGURE_COLOR:
          changeFigureColor(action.value);
+         console.log('change figure color');
          canvasAppStore.emitChange();
          break;
 
       case CanvasAppConstants.CHANGE_LINE_WIDTH:
          changeLineWidth(action.value);
+         console.log('change line width', action.value);
+         canvasAppStore.emitChange();
+         break;
+
+      case CanvasAppConstants.CHANGE_LABEL:
+         changeLabel(action.value);
          canvasAppStore.emitChange();
          break;
 

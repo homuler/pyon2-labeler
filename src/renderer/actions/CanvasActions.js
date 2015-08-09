@@ -4,8 +4,13 @@ import {CanvasAppDispatcher} from '../dispatcher/CanvasAppDispatcher';
 import {CanvasAppConstants} from '../constants/CanvasAppConstants';
 
 export class CanvasActions {
+   static initializeCanvas(obj) {
+      CanvasAppDispatcher.dispatch({
+         actionType: CanvasAppConstants.INITIALIZE_CANVAS,
+         value: obj
+      });
+   }
    static toggleGuideWire() {
-      console.log('called toggleGuideWire action');
       CanvasAppDispatcher.dispatch({
          actionType: CanvasAppConstants.TOGGLE_GUIDEWIRE
       });
@@ -26,7 +31,7 @@ export class CanvasActions {
          value: obj
       });
    }
-   static changeColor(obj) {
+   static changeFigureColor(obj) {
       CanvasAppDispatcher.dispatch({
          actionType: CanvasAppConstants.CHANGE_FIGURE_COLOR,
          value: obj
@@ -47,6 +52,12 @@ export class CanvasActions {
    static changeFileFormat(obj) {
       CanvasAppDispatcher.dispatch({
          actionType: CanvasAppConstants.CHANGE_FILE_FORMAT,
+         value: obj
+      });
+   }
+   static changeLabel(obj) {
+      CanvasAppDispatcher.dispatch({
+         actionType: CanvasAppConstants.CHANGE_LABEL,
          value: obj
       });
    }

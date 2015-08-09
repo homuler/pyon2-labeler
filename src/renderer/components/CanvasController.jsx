@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {CanvasActions} from '../actions/CanvasActions';
-import {FigureController} from './FigureController';
+import {FigureViewer} from './FigureViewer';
 import {OutputFormatSelector} from './OutputFormatSelector';
 
 export class CanvasController extends React.Component {
@@ -11,7 +11,7 @@ export class CanvasController extends React.Component {
    }
    static propTypes = {
       format: React.PropTypes.string.isRequired,
-      figure: React.PropTypes.object.isRequired,
+      stroke: React.PropTypes.object.isRequired,
       figureAspectFix: React.PropTypes.bool.isRequired,
       figureAspectRatio: React.PropTypes.object,
       guidewire: React.PropTypes.bool.isRequired,
@@ -32,12 +32,13 @@ export class CanvasController extends React.Component {
        );
    }
    render() {
+      console.log('Canvas Controller Render');
       return (
          <div className='canvas-controller'>
             <div className='controller-main'>
-               <FigureController 
+               <FigureViewer
                   mode={this.props.mode}
-                  figure={this.props.figure} 
+                  stroke={this.props.stroke} 
                   aspectFix={this.props.figureAspectFix} 
                   aspectRatio={this.props.figureAspectRatio} />
                <div className='option-ctrl'>

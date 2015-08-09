@@ -3,14 +3,14 @@
 import React from 'react';
 import {CanvasActions} from '../actions/CanvasActions';
 
-export class FigureController extends React.Component {
+export class FigureViewer extends React.Component {
    constructor(props) {
       super(props);
    }
    static propTypes = {
       mode: React.PropTypes.string.isRequired,
       modes: React.PropTypes.array.isRequired,
-      figure: React.PropTypes.object.isRequired,
+      stroke: React.PropTypes.object.isRequired,
       aspectFix: React.PropTypes.bool.isRequired,
       aspectRatio: React.PropTypes.object
    }
@@ -34,7 +34,7 @@ export class FigureController extends React.Component {
          </div>
       );
    }
-   renderDrawMode() {
+   render() {
       return (
          <div className='figure-ctrl'>
             <div className='figure-ctrl-header'>
@@ -43,6 +43,10 @@ export class FigureController extends React.Component {
                Draw Controller
             </div>
             <div className='figure-ctrl-main'>
+               <div className='figure-label-ctrl'>
+                  <input name='figure-label' placeholder='label' 
+                     onChange={this._onChangeLabel} />
+               </div>
                <div className='figure-color-ctrl'>
                   <span>Color</span>
                   <div className='figure-color-r-ctrl'>
@@ -51,7 +55,7 @@ export class FigureController extends React.Component {
                         type='number' 
                         max='255' 
                         min='0' 
-                        defaultValue={this.props.figure.color.r} 
+                        value={this.props.stroke.color.r} 
                         onChange={this._onChangeColor} />
                   </div>
                   <div className='figure-color-g-ctrl'>
@@ -60,7 +64,7 @@ export class FigureController extends React.Component {
                         type='number' 
                         max='255' 
                         min='0' 
-                        defaultValue={this.props.figure.color.g} 
+                        value={this.props.stroke.color.g} 
                         onChange={this._onChangeColor} />
                   </div>
                   <div className='figure-color-b-ctrl'>
@@ -69,7 +73,7 @@ export class FigureController extends React.Component {
                         type='number' 
                         max='255' 
                         min='0' 
-                        defaultValue={this.props.figure.color.b} 
+                        value={this.props.stroke.color.b} 
                         onChange={this._onChangeColor} />
                   </div>
                   <div className='figure-color-a-ctrl'>
@@ -79,7 +83,7 @@ export class FigureController extends React.Component {
                         max='1.0' 
                         min='0.0' 
                         step='0.05' 
-                        defaultValue={this.props.figure.color.a} 
+                        value={this.props.stroke.color.a} 
                         onChange={this._onChangeColor} />
                   </div>
                </div>
@@ -90,7 +94,7 @@ export class FigureController extends React.Component {
                      max='10.0' 
                      min='0.5' 
                      step='0.5' 
-                     defaultValue={this.props.figure.lineWidth} 
+                     value={this.props.stroke.lineWidth}
                      onChange={this._onChangeLineWidth} />
                </div>
                <div className='figure-aspect-ctrl'>
@@ -122,34 +126,18 @@ export class FigureController extends React.Component {
          </div>
       );
    }
-   render() {
-      console.log('FigureController render');
-      switch (this.props.mode) {
-         case 'Draw': 
-            return this.renderDrawMode();
-         case 'Edit': 
-            return (
-               <div className='edit-ctrl'>
-                  <div className='edit-ctrl-header'>
-                     <span>Mode Select</span>
-                     {this.renderModeSelector()}
-                  </div>
-                  Edit Controller
-               </div>
-            );
-         default: 
-            return null;
-      }
-   }
    _onSwitchCanvasMode = (e) => {
       CanvasActions.switchCanvasMode({ mode: e.target.value });
    }
+   _onChangeLabel = (e) => {
+      CanvasActions.changeLabel({ label: e.target.value });
+   }
    _onChangeColor = (e) => {
       var obj = {
-         r: this.props.figure.color.r,
-         g: this.props.figure.color.g,
-         b: this.props.figure.color.b,
-         a: this.props.figure.color.a
+         r: this.props.stroke.color.r,
+         g: this.props.stroke.color.g,
+         b: this.props.stroke.color.b,
+         a: this.props.stroke.color.a
       };
       switch (e.target.name) {
          case 'r-color': 
@@ -167,7 +155,7 @@ export class FigureController extends React.Component {
          default: 
             break;
       }
-      CanvasActions.changeColor(obj);
+      CanvasActions.changeFigureColor(obj);
    }
    _onChangeLineWidth= (e) => {
       CanvasActions.changeLineWidth({ lineWidth: +e.target.value });

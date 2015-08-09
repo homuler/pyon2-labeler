@@ -6,6 +6,7 @@ import {CanvasActions} from '../actions/CanvasActions';
 import {CanvasController} from './CanvasController';
 import {OutputViewer} from './OutputViewer';
 import {canvasAppStore} from '../stores/CanvasAppStore';
+import {Canvas} from './Canvas';
 
 function getCanvasState() {
    return canvasAppStore.getCanvasState();
@@ -23,9 +24,6 @@ export class MainApp extends React.Component {
    }
    state = getCanvasState()
    componentDidMount() {
-      if (this.state.canvas == null) {
-         canvasAppStore.setCanvasBag(new VirtualCanvas('pict-canvas'));
-      }
       canvasAppStore.addChangeListener(this._onChange);
    }
    componentWillUnmount() {
@@ -34,8 +32,7 @@ export class MainApp extends React.Component {
    render() {
       console.log('main render');
       var firstRender = this.state.canvas == null,
-          defaultFigure = {
-             type: 'rect',
+          defaultStroke = {
              color: {
                 r: 230,
                 g: 20,
@@ -52,11 +49,11 @@ export class MainApp extends React.Component {
             <CanvasController 
                mode={firstRender ? 'Draw' : this.state.canvas.state.mode}
                format={this.state.controller.format} 
-               figure={firstRender ? defaultFigure : this.state.canvas.state.currentFigure} 
+               stroke={firstRender ? defaultStroke : this.state.canvas.settings.stroke}
                guidewire={firstRender ? true : this.state.canvas.settings.guide.on}
                figureAspectFix={firstRender ? false : this.state.canvas.settings.aspect.fix}
                figureAspectRatio={firstRender ? null : this.state.canvas.settings.aspect.ratio} />
-            <canvas id='pict-canvas' width='1120' height='630'></canvas>
+            <Canvas />
             <OutputViewer format={this.state.controller.format} />
          </div>
       );

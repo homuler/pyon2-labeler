@@ -1,3 +1,13 @@
+'use strict';
+
+export function rgbaToString(rgba) {
+   return 'rgba(' +
+         rgba.r + ',' +
+         rgba.g + ',' +
+         rgba.b + ',' +
+         rgba.a + ')';
+}
+
 export function loadImage(ctx, imgPath, callback) {
    let image = new Image();
 

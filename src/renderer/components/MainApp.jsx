@@ -50,7 +50,7 @@ export class MainApp extends React.Component {
                <h1>{this.state.message}</h1>
             </div>
             <CanvasController 
-               mode={this.state.controller.mode}
+               mode={firstRender ? 'Draw' : this.state.canvas.state.mode}
                format={this.state.controller.format} 
                figure={firstRender ? defaultFigure : this.state.canvas.state.currentFigure} 
                guidewire={firstRender ? true : this.state.canvas.settings.guide.on}

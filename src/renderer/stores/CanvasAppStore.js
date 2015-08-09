@@ -13,14 +13,26 @@ function defaultCanvasBag() {
       message: 'Hello, Electron!',
       controller: {
          format: 'json',
-         mode: 'Draw'
       },
       canvas: null
    };
 }
 
 function switchCanvasMode(obj) {
-   _canvasBag.controller.mode = obj.mode;
+   _canvasBag.canvas.state.mode = obj.mode;
+   _canvasBag.canvas.redrawAll();
+   switch(obj.mode) {
+      case 'Draw': 
+         break;
+      case 'Edit':
+         _canvasBag.canvas.focusOnAll();
+         break;
+      default:
+         break;
+   }
+   _canvasBag.canvas.saveDrawingSurface();
+   _canvasBag.canvas.drawVirtualSurface();
+   _canvasBag.canvas.copyOffscreenToMain();
 }
 
 function toggleGuideWire() {

@@ -65,6 +65,7 @@ export function drawRect(ctx, p1, p2, color = 'rgba(255, 255, 255, 1.0)', lineWi
        width = Math.abs(p1.x - p2.x),
        height = Math.abs(p1.y - p2.y);
    ctx.strokeRect(left, top, width, height);
+   ctx.restore();
 }
 
 export function drawRectWithFixedAspectRatio(ctx, p1, p2, rx = 1, ry = 1, color = 'rgba(255, 255, 255, 1.0)', lineWidth = 1.0) {
@@ -77,4 +78,5 @@ export function drawRectWithFixedAspectRatio(ctx, p1, p2, rx = 1, ry = 1, color 
        width = Math.abs(p1.x - p2.x),
        height = width * ry / rx;
    ctx.strokeRect(left, top, width, height);
+   ctx.restore();
 }

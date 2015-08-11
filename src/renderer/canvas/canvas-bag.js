@@ -218,11 +218,11 @@ export class VirtualCanvas {
              stretchPoint = fig.findStretchPoint(this.offscreenCtx, loc);
          if (stretchPoint >= 0) {
             // change current color to the focused figure's color.
+            this.state.currentFigure.figure = fig;
+            this.state.currentFigure.stretchPoint = stretchPoint;
             this.actions.changeFigureColor(fig.color);
             this.actions.changeLineWidth({ lineWidth: fig.lineWidth });
             this.actions.changeLabel({ label: fig.label });
-            this.state.currentFigure.figure = fig;
-            this.state.currentFigure.stretchPoint = stretchPoint;
             return;
          }
       }

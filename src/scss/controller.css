@@ -1,0 +1,125 @@
+.ctrl-label {
+   width: 120px;
+   display: inline-block;
+}
+
+.sub-ctrl-label  {
+   width: 50px;
+   display: inline-block;
+}
+
+.figure-ctrl-header {
+   margin: 2px 5px;
+}
+
+.figure-ctrl-header div {
+   display: inline-block;
+}
+
+.canvas-mode-ctrl {
+   margin: 0 10px;
+}
+
+.figure-ctrl-main {
+   margin: 10px 5px;
+}
+
+.figure-label-ctrl input {
+   margin: 0 10px;
+}
+
+.figure-color-ctrl-container div {
+   display: inline-block;
+}
+
+.sub-ctrl-label {
+   padding: 3px;
+   border-radius: 5px;
+   margin: 5px 10px;
+   text-align: center;
+   color: white;
+   box-shadow: -1px 1px;
+}
+
+.figure-color-ctrl input {
+   margin-left: 5px;
+}
+
+.r-color {
+   background-color: red;
+}
+
+.g-color {
+   background-color: green;
+}
+
+.b-color {
+   background-color: blue;
+}
+
+.a-color {
+   background-color: white;
+   color: black;
+}
+
+.figure-line-width-ctrl input {
+   margin-left: 10px;
+}
+
+.figure-aspect-ctrl {
+   margin: 5px 0px;
+}
+
+.figure-aspect-ctrl input {
+   margin-left: 10px;
+}
+
+.option-ctrl {
+   margin: 10px 5px;
+}
+
+.option-ctrl div {
+   margin: 2px 0px;
+}
+
+.guidewire-ctrl input {
+   margin-left: 10px;
+}
+
+.output-format-ctrl select {
+   margin-left: 10px;
+}
+
+.operation-ctrl {
+   margin: 10px 5px;
+}
+
+.operation-ctrl div {
+   display: inline-block;
+}
+
+.operation-ctrl .btn-group {
+   margin: 0px 10px;
+}
+
+.btn-group input[type='button'] {
+   margin-right: 5px;
+}
+
+.figure-aspect-ctrl input {
+   display: inline-block;
+}
+
+.figure-aspect-ratio-ctrl div {
+   display: inline-block;
+}
+
+.figure-aspect-ratio-ctrol {
+   display: inline-block;
+}
+
+.figure-aspect-ratio-ctrl input {
+   width: 50px;
+   margin: 5px 10px;
+}
+

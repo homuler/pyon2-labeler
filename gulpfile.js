@@ -1,12 +1,22 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 
-gulp.task('copy', function() {
-   return gulp.src('src/**/*.{html,png}')
+gulp.task('html', function() {
+   return gulp.src('src/**/*.html')
       .pipe(gulp.dest('build'));
 });
 
-gulp.task('scripts', ['copy'], function() {
+gulp.task('sass', function() {
+   return $.rubySass('src/scss/', { style: 'expanded' })
+      .pipe(gulp.dest('build/css'));
+});
+
+gulp.task('resources', function() {
+   return gulp.src('src/**/*.{png}')
+      .pipe(gulp.dest('build'));
+});
+
+gulp.task('scripts', function() {
    return gulp.src('src/**/*.{js,jsx}')
       .pipe($.sourcemaps.init())
       .pipe($.babel({
@@ -25,7 +35,9 @@ gulp.task('lint', function() {
 });
 
 gulp.task('watch', function() {
-   gulp.watch('src/**/*.*', ['scripts']);
+   gulp.watch('src/**/*.{js,jsx}', ['scripts']);
+   gulp.watch('src/**/*.scss', ['sass']);
+   gulp.watch('src/**/*.html', ['html']);
 });
 
 function handleError(err) {

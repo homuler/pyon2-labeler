@@ -9,20 +9,35 @@ export class CanvasController extends React.Component {
    constructor(props) {
       super(props);
    }
-   static propTypes = {
-      format: React.PropTypes.string.isRequired,
-      stroke: React.PropTypes.object.isRequired,
-      figureAspectFix: React.PropTypes.bool.isRequired,
-      figureAspectRatio: React.PropTypes.object,
-      guidewire: React.PropTypes.bool.isRequired,
+   static defaultProps = {
+      mode: 'Draw',
+      modes: ['Draw', 'Edit']
    }
-   componentWillUpdate(nextProps, nextState) {
-
+   static propTypes = {
+      mode: React.PropTypes.string.isRequired,
+      format: React.PropTypes.string.isRequired,
+      guidewire: React.PropTypes.bool.isRequired,
+      aspectFix: React.PropTypes.bool.isRequired,
+      aspectRatio: React.PropTypes.object
+   }
+   renderModeSelector() {
+      let options = this.props.modes.map((f, i) => {
+         return (
+               <option value={f} key={'canvas-mode-' + i}>{f}</option>
+         );
+      });
+      return (
+           <select className='canvas-mode-selector'
+              defaultvalue={this.props.mode}
+              onChange={this._onSwitchCanvasMode}>
+              {options}
+           </select>
+      );
    }
    renderGuidewireCheck() {
       return (
          <div className='guidewire-ctrl'>
-            <span>Guidewire</span>
+            <div className='ctrl-label'>Guidewire</div>
             <input className='guidewire-check' 
                type='checkbox' 
                name='guidewire-check'
@@ -36,31 +51,89 @@ export class CanvasController extends React.Component {
       return (
          <div className='canvas-controller'>
             <div className='controller-main'>
-               <FigureViewer
-                  mode={this.props.mode}
-                  stroke={this.props.stroke} 
-                  aspectFix={this.props.figureAspectFix} 
-                  aspectRatio={this.props.figureAspectRatio} />
-               <div className='option-ctrl'>
-                  {this.renderGuidewireCheck()}
-                  <OutputFormatSelector format={this.props.format} />
+               <div className='canvas-mode-ctrl'>
+                  <div className='ctrl-label'>Canvas Mode</div>
+                  {this.renderModeSelector()}
                </div>
+               {this.renderGuidewireCheck()}
+               <OutputFormatSelector format={this.props.format} />
+               <div className='figure-aspect-ctrl'>
+                  <div className='ctrl-label'>Fix Aspect Ratio</div>
+                  <input name='aspect-fix=check'
+                     type='checkbox'
+                     checked={this.props.aspectFix}
+                     onChange={this._onSwitchAspectFixMode} />
+               </div>
+               {this.props.aspectFix ?
+                  (
+                     <div className='figure-aspect-ratio-ctrl'>
+                        <div className='ctrl-label'>Aspect Ratio</div>
+                        <div>
+                           <input name='aspect-x'
+                              type='number'
+                              defaultValue={this.props.aspectRatio.x}
+                              onChange={this._onChangeAspectRatio} />
+                           <span>:</span>
+                           <input name='aspect-y'
+                              type='number'
+                              defaultValue={this.props.aspectRatio.y}
+                              onChange={this._onChangeAspectRatio} />
+                        </div>
+                     </div>
+                  ) : []
+               }
                <div className='operation-ctrl'>
-                  <div className='eraser-op'>
-                     <input type='button' value='Erase All' />
-                  </div>
-                  <div className='save-op'>
-                     <input type='button' value='Save Label' />
-                  </div>
-                  <div className='back-op'>
-                     <input type='button' 
-                        value='Back' onClick={this._onClickBackButton} />
+                  <div className='ctrl-label'>Operation</div>
+                  <div className='btn-group'>
+                     <div className='eraser-op'>
+                        <input type='button' value='Erase All' />
+                     </div>
+                     <div className='save-op'>
+                        <input type='button' value='Save Label' />
+                     </div>
+                     <div className='back-op'>
+                        <input type='button' 
+                           value='Back' onClick={this._onClickBackButton} />
+                     </div>
                   </div>
                </div>
             </div>
          </div>
       );
    }
+   _onSwitchCanvasMode = (e) => {
+      CanvasActions.switchCanvasMode({ mode: e.target.value });
+   }
+
+   _onSwitchAspectFixMode = (e) => {
+      if (e.type === 'click') {
+         CanvasActions.switchAspectFixMode();
+      }
+   }
+
+   _onChangeAspectRatio = (e) => {
+      var obj = null;
+      if (e.type === 'click') {
+         switch (e.target.name) {
+            case 'aspect-x':
+               obj = {
+                  x: +e.target.value,
+                  y: this.props.aspectRatio.y
+               };
+               break;
+            case 'aspect-y':
+               obj = {
+                  x: this.props.aspectRatio.x,
+                  y: +e.target.value
+               };
+               break;
+            default:
+               break;
+         }
+         CanvasActions.changeAspectRatio(obj);
+      }
+   }
+
    _onToggleGuideWire = (e) => {
       if (e.type === 'click') {
          CanvasActions.toggleGuideWire();

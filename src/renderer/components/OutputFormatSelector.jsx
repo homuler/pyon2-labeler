@@ -24,7 +24,7 @@ export class OutputFormatSelector extends React.Component {
       });
       return (
          <div className='output-format-ctrl'>
-            <span>Output Format</span>
+            <div className='ctrl-label'>Output Format</div>
             <select className='output-format-select' 
                defaultValue={this.props.format} 
                onChange={this._onChangeFileFormat}>

@@ -1,0 +1,140 @@
+$red: #cc3060;
+$green: #60cc30;
+$blue: #3060cc;
+
+.ctrl-label {
+   margin: 3px 10px;
+   width: 120px;
+   display: inline-block;
+}
+
+.sub-ctrl-label  {
+   width: 50px;
+   display: inline-block;
+   padding: 3px;
+   border-radius: 5px;
+   margin: 5px 10px;
+   text-align: center;
+   color: white;
+   box-shadow: -1px 1px;
+}
+
+.btn-group input[type='button'] {
+   margin-right: 5px;
+}
+
+.canvas-state-viewer {
+   float: right;
+   max-width: 40%;
+   margin-right: 2%;
+}
+
+.canvas-controller {
+   display: inline-block;
+}
+
+.canvas-editor {
+   margin-top: 20px;
+}
+
+.canvas-mode-ctrl {
+   select {
+      width: 70px;
+      margin: 0px 10px;
+   }
+}
+
+.guidewire-ctrl {
+   display: inline-block;
+   margin-right: 20px;
+   input {
+      margin: 5px 10px;
+   }
+}
+
+.output-format-ctrl {
+   display: inline-block;
+   margin-right: 20px;
+   select {
+      width: 70px;
+      margin: 0px 10px;
+   }
+}
+
+.figure-aspect-ctrl {
+   display: inline-block;
+   input {
+      margin: 5px 10px;
+   }
+}
+
+.figure-aspect-ratio-ctrl {
+   display: inline-block;
+   div {
+      display: inline-block;
+   }
+   input {
+      width: 50px;
+      margin: 5px 10px;
+   }
+}
+
+.operation-ctrl {
+   div {
+      display: inline-block;
+   }
+   .btn-group {
+      margin: 0px 10px;
+   }
+}
+
+.figure-label-editor {
+   input {
+      margin: 0px 10px;
+   }
+}
+
+.figure-color-editor {
+   div {
+      display: inline-block;
+   }
+   .figure-color-sub-editor {
+      margin-right: 10px;
+   }
+}
+
+.figure-line-width-editor {
+   input {
+      margin: 0px 10px;
+   }
+}
+
+.r-color {
+   background-color: $red;
+}
+
+.g-color {
+   background-color: $green;
+}
+
+.b-color {
+   background-color: $blue;
+}
+
+.a-color {
+   background-color: white;
+   color: black;
+}
+
+.output-viewer {
+   input {
+      width: 500px;
+      height: 400px;
+   }
+}
+
+.canvas-container {
+   canvas {
+      max-width: 55%;
+   }
+}

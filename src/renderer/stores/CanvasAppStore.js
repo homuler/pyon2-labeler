@@ -10,7 +10,7 @@ var _canvasBag = defaultCanvasBag();
 
 function defaultCanvasBag() {
    return {
-      message: 'Hello, Electron!',
+      message: 'Pyon2 Labeler',
       controller: {
          format: 'json',
       },

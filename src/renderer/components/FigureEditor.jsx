@@ -12,6 +12,7 @@ export class FigureEditor extends React.Component {
       modes: React.PropTypes.array.isRequired,
       label: React.PropTypes.string,
       stroke: React.PropTypes.object.isRequired,
+      figure: React.PropTypes.object
    }
    static defaultProps = {
       mode: 'Draw',
@@ -76,6 +77,33 @@ export class FigureEditor extends React.Component {
                      step='0.5' 
                      value={this.props.stroke.lineWidth}
                      onChange={this._onChangeLineWidth} />
+               </div>
+               <div className='figure-position-viewer'>
+                  <div className='ctrl-label'>Figure Info</div>
+                  <div className='figure-pos-value'>
+                     <div className='sub-ctrl-label'>Left</div>
+                     <span>
+                        {this.props.figure ? this.props.figure.left : '-'}
+                     </span>
+                  </div>
+                  <div className='figure-pos-value'>
+                     <div className='sub-ctrl-label'>Top</div>
+                     <span>
+                        {this.props.figure ? this.props.figure.top : '-'}
+                     </span>
+                  </div>
+                  <div className='figure-pos-value'>
+                     <div className='sub-ctrl-label'>Width</div>
+                     <span>
+                        {this.props.figure ? this.props.figure.width : '-'}
+                     </span>
+                  </div>
+                  <div className='figure-pos-value'>
+                     <div className='sub-ctrl-label'>Height</div>
+                     <span>
+                        {this.props.figure ? this.props.figure.height : '-'}
+                     </span>
+                  </div>
                </div>
             </div>
          </div>

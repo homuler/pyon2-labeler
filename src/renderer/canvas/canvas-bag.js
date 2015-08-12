@@ -174,7 +174,7 @@ export class VirtualCanvas {
       this.offscreenCtx.save();
       this.offscreenCtx.textAlign = 'center';
       this.offscreenCtx.textBaseline = 'middle';
-      this.offscreenCtx.font = '3em palatino';
+      this.offscreenCtx.font = '5em palatino';
       this.offscreenCtx.fillText('Drop the file here!', 
             this.canvas.width/2, this.canvas.height/2);
       this.offscreenCtx.restore();

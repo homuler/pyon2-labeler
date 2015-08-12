@@ -25,10 +25,48 @@ export class Canvas extends React.Component {
    render() {
       return (
          <div className='canvas-container'>
-            <canvas ref='mainCanvas' width={1120} height={630}>
+            <canvas ref='mainCanvas' width={1120} height={630}
+               onDrop={this.onDrop}
+               onDragOver={this.onDragOver}
+               onDragLeave={this.onDragLeave}
+               onDragEnd={this.onDragEnd}
+               onMouseDown={this.onMouseDown}
+               onMouseMove={this.onMouseMove}
+               onMouseUp={this.onMouseUp}>
                Hello Canvas
             </canvas>
          </div>
          );
+   }
+
+   onDragOver = (e) => {
+      e.preventDefault();
+   }
+   
+   onDragLeave = (e) => {
+      e.preventDefault();
+   }
+
+   onDragEnd = (e) => {
+      e.preventDefault();
+   }
+
+   onDrop = (e) => {
+      console.log(e.dataTransfer.files[0]);   
+      if (e.dataTransfer && e.dataTransfer.files) {
+         CanvasActions.loadImage({ path: e.dataTransfer.files[0].path });
+      }
+   }
+
+   onMouseDown = (e) => {
+      CanvasActions.mouseDownOnCanvas(e);
+   }
+
+   onMouseMove = (e) => {
+      CanvasActions.mouseMoveOnCanvas(e);
+   }
+
+   onMouseUp = (e) => {
+      CanvasActions.mouseUpOnCanvas(e);
    }
 }

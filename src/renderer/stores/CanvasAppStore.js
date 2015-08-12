@@ -44,6 +44,11 @@ function toggleGuideWire() {
       !_canvasBag.canvas.settings.guide.on;
 }
 
+function loadImage(obj) {
+   _canvasBag.canvas.setBackground(obj.path);
+   _canvasBag.canvas.clearFigures();
+}
+
 function redoDrawing() {
    if (_canvasBag.canvas == null) {
       throw ('CanvasBag is not initialized yet.');
@@ -99,6 +104,18 @@ function changeFileFormat(obj) {
    _canvasBag.controller.format = obj.format;
 }
 
+function mouseDownOnCanvas(event) {
+   _canvasBag.canvas.onMouseDown(event);
+}
+
+function mouseMoveOnCanvas(event) {
+   _canvasBag.canvas.onMouseMove(event);
+}
+
+function mouseUpOnCanvas(event) {
+   _canvasBag.canvas.onMouseUp(event);
+}
+
 class CanvasAppStore extends EventEmitter {
    constructor(){
       super();
@@ -127,6 +144,10 @@ CanvasAppDispatcher.register((action) => {
       case CanvasAppConstants.INITIALIZE_CANVAS:
          canvasAppStore.setCanvasBag(action.value);
          canvasAppStore.emitChange();
+         break;
+
+      case CanvasAppConstants.LOAD_IMAGE:
+         loadImage(action.value);
          break;
 
       case CanvasAppConstants.SWITCH_CANVAS_MODE:
@@ -184,6 +205,21 @@ CanvasAppDispatcher.register((action) => {
 
       case CanvasAppConstants.ERASE_ALL:
          break;
+
+      case CanvasAppConstants.MOUSE_DOWN_ON_CANVAS:
+         mouseDownOnCanvas(action.value);
+         canvasAppStore.emitChange();
+         break;
+
+      case CanvasAppConstants.MOUSE_MOVE_ON_CANVAS:
+         mouseMoveOnCanvas(action.value);
+         break;
+
+      case CanvasAppConstants.MOUSE_UP_ON_CANVAS:
+         mouseUpOnCanvas(action.value);
+         canvasAppStore.emitChange();
+         break;
+         
       default:
          console.log('Unknown Action dispatched:', action.actionType);
          break;

@@ -54,12 +54,10 @@ export class VirtualCanvas {
 
       this.offscreenCanvas.width = this.canvas.width;
       this.offscreenCanvas.height = this.canvas.height;
+      this.defaultDisplay();
       this.saveDrawingSurface();
       this.drawVirtualSurface();
-      this.canvas.addEventListener('mousedown', this.onMouseDown);
-      this.canvas.addEventListener('mousemove', this.onMouseMove);
-      this.canvas.addEventListener('mouseup', this.onMouseUp);
-      this.setBackground('../res/img/test.png');
+      this.copyOffscreenToMain();
    }
    onMouseDown = (e) => {
       let point = this.getCurrentPoint(e);
@@ -79,7 +77,6 @@ export class VirtualCanvas {
             this.drawAllFigures();
             
             this.selectFigureToEdit(point);
-            console.log(this.state.currentFigure.figure);
             if (this.state.currentFigure.figure) {
                this.state.currentFigure.figure.focus(this.offscreenCtx,
                      this.state.currentFigure.stretchPoint);
@@ -166,6 +163,23 @@ export class VirtualCanvas {
          this.copyOffscreenToMain();
       }
    }
+
+   onDrop = (e) => {
+      e.preventDefault();
+      console.log(e.dataTransfer.files[0]);
+   }
+
+   defaultDisplay() {
+      this.offscreenCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.offscreenCtx.save();
+      this.offscreenCtx.textAlign = 'center';
+      this.offscreenCtx.textBaseline = 'middle';
+      this.offscreenCtx.font = '3em palatino';
+      this.offscreenCtx.fillText('Drop the file here!', 
+            this.canvas.width/2, this.canvas.height/2);
+      this.offscreenCtx.restore();
+   }
+
    copyOffscreenToMain() {
       this.ctx.drawImage(this.offscreenCanvas,
             0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
@@ -197,6 +211,9 @@ export class VirtualCanvas {
       };
       image.src = imgPath;
    }
+   clearFigures() {
+      this.state.figures = [];
+   }
    saveDrawingSurfaceTemp() {
       this.prevDrawingSurface = 
          this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
@@ -208,8 +225,11 @@ export class VirtualCanvas {
    restoreDrawingSurface() {
       var surfaceHistory = this.state.surfaceHistory;
       if (surfaceHistory.length > 0) {
+         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
          this.offscreenCtx.putImageData(surfaceHistory[surfaceHistory.length-1],
                0, 0);
+      } else {
+         this.offscreenCtx.clearRect(0, 0, this.offscreenCanvas.width, this.offscreenCanvas.height);
       }
    }
    selectFigureToEdit(loc) {
@@ -223,9 +243,9 @@ export class VirtualCanvas {
             // change current color to the focused figure's color.
             this.state.currentFigure.figure = fig;
             this.state.currentFigure.stretchPoint = stretchPoint;
-            this.actions.changeFigureColor(fig.color);
-            this.actions.changeLineWidth({ lineWidth: fig.lineWidth });
-            this.actions.changeLabel({ label: fig.label });
+            this.settings.stroke.color = fig.color;
+            this.settings.stroke.lineWidth = fig.lineWidth;
+            console.log('selected', fig);
             return;
          }
       }

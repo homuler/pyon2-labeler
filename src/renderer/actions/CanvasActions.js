@@ -10,6 +10,14 @@ export class CanvasActions {
          value: obj
       });
    }
+
+   static loadImage(obj) {
+      CanvasAppDispatcher.dispatch({
+         actionType: CanvasAppConstants.LOAD_IMAGE,
+         value: obj
+      });
+   }
+
    static toggleGuideWire() {
       CanvasAppDispatcher.dispatch({
          actionType: CanvasAppConstants.TOGGLE_GUIDEWIRE
@@ -59,6 +67,27 @@ export class CanvasActions {
       CanvasAppDispatcher.dispatch({
          actionType: CanvasAppConstants.CHANGE_LABEL,
          value: obj
+      });
+   }
+
+   static mouseDownOnCanvas(event) {
+      CanvasAppDispatcher.dispatch({
+         actionType: CanvasAppConstants.MOUSE_DOWN_ON_CANVAS,
+         value: event
+      });
+   }
+
+   static mouseMoveOnCanvas(event) {
+      CanvasAppDispatcher.dispatch({
+         actionType: CanvasAppConstants.MOUSE_MOVE_ON_CANVAS,
+         value: event
+      });
+   }
+
+   static mouseUpOnCanvas(event) {
+      CanvasAppDispatcher.dispatch({
+         actionType: CanvasAppConstants.MOUSE_UP_ON_CANVAS,
+         value: event
       });
    }
 }

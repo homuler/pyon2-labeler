@@ -12,20 +12,26 @@ export class FigureEditor extends React.Component {
       modes: React.PropTypes.array.isRequired,
       label: React.PropTypes.string,
       stroke: React.PropTypes.object.isRequired,
-      figure: React.PropTypes.object
+      figureSize: React.PropTypes.object
    }
    static defaultProps = {
       mode: 'Draw',
       modes: ['Draw', 'Edit']
    }
    render() {
+      var lineStyle = {
+         backgroundColor: 'rgba(' + this.props.stroke.color.r +
+                                ',' + this.props.stroke.color.g +
+                                ',' + this.props.stroke.color.b + 
+                                ',' + this.props.stroke.color.a + ')'
+      };
       return (
          <div className='figure-editor'>
             <div className='figure-editor-main'>
                <div className='figure-label-editor'>
                   <div className='ctrl-label'>Label Name</div>
                   <input name='figure-label' placeholder='label' 
-                     value={this.props.label}
+                     value={this.props.label ? this.props.label : ''}
                      onChange={this._onChangeLabel} />
                </div>
                <div className='figure-color-editor'>
@@ -78,30 +84,38 @@ export class FigureEditor extends React.Component {
                      value={this.props.stroke.lineWidth}
                      onChange={this._onChangeLineWidth} />
                </div>
+               <div className='line-sample-viewer'>
+                  <div className='ctrl-label'>Sample</div>
+                  <div className='line-sample' style={lineStyle}></div>
+               </div>
                <div className='figure-position-viewer'>
                   <div className='ctrl-label'>Figure Info</div>
                   <div className='figure-pos-value'>
                      <div className='sub-ctrl-label'>Left</div>
                      <span>
-                        {this.props.figure ? this.props.figure.left : '-'}
+                        {this.props.figureSize ? 
+                           this.props.figureSize.left.toFixed(0) : '-'}
                      </span>
                   </div>
                   <div className='figure-pos-value'>
                      <div className='sub-ctrl-label'>Top</div>
                      <span>
-                        {this.props.figure ? this.props.figure.top : '-'}
+                        {this.props.figureSize ? 
+                           this.props.figureSize.top.toFixed(0) : '-'}
                      </span>
                   </div>
                   <div className='figure-pos-value'>
                      <div className='sub-ctrl-label'>Width</div>
                      <span>
-                        {this.props.figure ? this.props.figure.width : '-'}
+                        {this.props.figureSize ? 
+                           this.props.figureSize.width.toFixed(0) : '-'}
                      </span>
                   </div>
                   <div className='figure-pos-value'>
                      <div className='sub-ctrl-label'>Height</div>
                      <span>
-                        {this.props.figure ? this.props.figure.height : '-'}
+                        {this.props.figureSize ? 
+                           this.props.figureSize.height.toFixed(0) : '-'}
                      </span>
                   </div>
                </div>

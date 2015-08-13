@@ -56,12 +56,19 @@ export class MainApp extends React.Component {
             <div className='canvas-editor'>
                <div className='canvas-state-viewer'>
                   <FigureEditor
-                     label={firstRender || 
-                        !this.state.canvas.state.currentFigure.figure ? '' : 
-                        this.state.canvas.state.currentFigure.figure.label}
+                     label={firstRender || !this.state.canvas.state.currentFigure.figure ? '' 
+                        : this.state.canvas.state.currentFigure.figure.label}
+                     figureSize={firstRender ? null 
+                        : this.state.canvas.getRealFigureSize()} 
                      stroke={firstRender ? defaultStroke : 
                         this.state.canvas.settings.stroke} />
-                  <OutputViewer format={this.state.controller.format} />
+                  <OutputViewer format={this.state.controller.format} 
+                     figures={firstRender || !this.state.canvas.state.figures
+                        ? []
+                        : this.state.canvas.state.figures}
+                     imgPath={firstRender || !this.state.canvas.state.backgroundImage 
+                        ? null 
+                        : this.state.canvas.state.backgroundImage.src} />
                </div>
                <Canvas />
             </div>

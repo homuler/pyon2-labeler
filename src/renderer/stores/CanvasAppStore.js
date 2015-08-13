@@ -213,6 +213,7 @@ CanvasAppDispatcher.register((action) => {
 
       case CanvasAppConstants.MOUSE_MOVE_ON_CANVAS:
          mouseMoveOnCanvas(action.value);
+         canvasAppStore.emitChange();
          break;
 
       case CanvasAppConstants.MOUSE_UP_ON_CANVAS:

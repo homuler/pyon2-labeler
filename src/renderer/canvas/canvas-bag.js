@@ -184,6 +184,31 @@ export class VirtualCanvas {
       this.ctx.drawImage(this.offscreenCanvas,
             0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
    }
+   getRealFigureSize() {
+      if (this.state.currentFigure.figure === null) {
+         return null;
+      }
+      var rawSize = this.state.backgroundImage ?
+         { 
+            width: this.state.backgroundImage.width,
+            height: this.state.backgroundImage.height
+         } :
+         {
+            width: this.canvas.width,
+            height: this.canvas.height
+         };
+
+      var ratio = {
+         w: rawSize.width / this.canvas.width,
+         h: rawSize.height / this.canvas.height
+      };
+      return {
+         left: this.state.currentFigure.figure.left * ratio.w,
+         top: this.state.currentFigure.figure.top * ratio.h,
+         width: this.state.currentFigure.figure.width * ratio.w,
+         height: this.state.currentFigure.figure.height * ratio.h
+      };
+   }
    getCurrentRGBA() {
       return util.rgbaToString(this.settings.stroke.color);
    }

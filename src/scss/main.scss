@@ -1,6 +1,6 @@
-$red: #cc3060;
-$green: #60cc30;
-$blue: #3060cc;
+$red: #EE3330;
+$green: #64CC50;
+$blue: #4290DD;
 
 .ctrl-label {
    margin: 3px 10px;
@@ -15,8 +15,6 @@ $blue: #3060cc;
    border-radius: 5px;
    margin: 5px 10px;
    text-align: center;
-   color: white;
-   box-shadow: -1px 1px;
 }
 
 .btn-group input[type='button'] {
@@ -100,6 +98,13 @@ $blue: #3060cc;
    }
    .figure-color-sub-editor {
       margin-right: 10px;
+      .sub-ctrl-label {
+         color: white;
+      }
+      .a-color {
+         color: black;
+         border-width: 1px;
+      }
    }
 }
 
@@ -127,9 +132,9 @@ $blue: #3060cc;
 }
 
 .output-viewer {
-   input {
-      width: 500px;
-      height: 400px;
+   textarea {
+      width: 100%;
+      height: 100px;
    }
 }
 
@@ -138,3 +143,14 @@ $blue: #3060cc;
       max-width: 55%;
    }
 }
+
+.line-sample-viewer {
+   .line-sample {
+      width: 70%;
+      color: white;
+      color: white;
+      height: 10px;
+      display: inline-block;
+   }
+}
+

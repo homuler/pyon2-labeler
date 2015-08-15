@@ -2,7 +2,6 @@
 
 import React from 'react';
 import {CanvasActions} from '../actions/CanvasActions';
-import {FigureViewer} from './FigureViewer';
 import {OutputFormatSelector} from './OutputFormatSelector';
 
 export class CanvasController extends React.Component {

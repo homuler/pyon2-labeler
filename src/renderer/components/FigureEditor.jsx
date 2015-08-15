@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import {ColorPicker} from './ColorPicker';
 import {CanvasActions} from '../actions/CanvasActions';
 
 export class FigureEditor extends React.Component {
@@ -12,7 +13,8 @@ export class FigureEditor extends React.Component {
       modes: React.PropTypes.array.isRequired,
       label: React.PropTypes.string,
       stroke: React.PropTypes.object.isRequired,
-      figureSize: React.PropTypes.object
+      figureSize: React.PropTypes.object,
+      onColorChange: React.PropTypes.func.isRequired
    }
    static defaultProps = {
       mode: 'Draw',
@@ -21,9 +23,9 @@ export class FigureEditor extends React.Component {
    render() {
       var lineStyle = {
          backgroundColor: 'rgba(' + this.props.stroke.color.r +
-                                ',' + this.props.stroke.color.g +
-                                ',' + this.props.stroke.color.b + 
-                                ',' + this.props.stroke.color.a + ')'
+                      ',' + this.props.stroke.color.g +
+                      ',' + this.props.stroke.color.b + 
+                      ',' + this.props.stroke.color.a + ')',
       };
       return (
          <div className='figure-editor'>
@@ -35,44 +37,9 @@ export class FigureEditor extends React.Component {
                      onChange={this._onChangeLabel} />
                </div>
                <div className='figure-color-editor'>
-                  <div className='ctrl-label'>Color</div>
-                  <div className='figure-color-sub-editor'>
-                     <div className='sub-ctrl-label r-color'>Red</div>
-                     <input name='r-color' 
-                        type='number' 
-                        max='255' 
-                        min='0' 
-                        value={this.props.stroke.color.r} 
-                        onChange={this._onChangeColor} />
-                  </div>
-                  <div className='figure-color-sub-editor'>
-                     <div className='sub-ctrl-label g-color'>Green</div>
-                     <input name='g-color' 
-                        type='number' 
-                        max='255' 
-                        min='0' 
-                        value={this.props.stroke.color.g} 
-                        onChange={this._onChangeColor} />
-                  </div>
-                  <div className='figure-color-sub-editor'>
-                     <div className='sub-ctrl-label b-color'>Blue</div>
-                     <input name='b-color' 
-                        type='number' 
-                        max='255' 
-                        min='0' 
-                        value={this.props.stroke.color.b} 
-                        onChange={this._onChangeColor} />
-                  </div>
-                  <div className='figure-color-sub-editor'>
-                     <div className='sub-ctrl-label a-color'>Alpha</div>
-                     <input name='a-color' 
-                        type='number' 
-                        max='1.0' 
-                        min='0.0' 
-                        step='0.05' 
-                        value={this.props.stroke.color.a} 
-                        onChange={this._onChangeColor} />
-                  </div>
+                  <ColorPicker width={500} height={500} 
+                     color={this.props.stroke.color}
+                     onChange={this.props.onColorChange} />
                </div>
                <div className='figure-line-width-editor'>
                   <div className='ctrl-label'>Line Width</div>
@@ -83,10 +50,6 @@ export class FigureEditor extends React.Component {
                      step='0.5' 
                      value={this.props.stroke.lineWidth}
                      onChange={this._onChangeLineWidth} />
-               </div>
-               <div className='line-sample-viewer'>
-                  <div className='ctrl-label'>Sample</div>
-                  <div className='line-sample' style={lineStyle}></div>
                </div>
                <div className='figure-position-viewer'>
                   <div className='ctrl-label'>Figure Info</div>

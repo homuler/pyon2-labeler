@@ -45,6 +45,14 @@ export class CanvasActions {
          value: obj
       });
    }
+
+   static colorPickerChange(e, obj) {
+      CanvasAppDispatcher.dispatch({
+         actionType: CanvasAppConstants.COLOR_PICKER_CHANGE,
+         value: obj
+      });
+   }
+
    static changeLineWidth(obj) {
       CanvasAppDispatcher.dispatch({
          actionType: CanvasAppConstants.CHANGE_LINE_WIDTH,

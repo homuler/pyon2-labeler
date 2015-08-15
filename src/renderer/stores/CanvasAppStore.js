@@ -116,6 +116,10 @@ function mouseUpOnCanvas(event) {
    _canvasBag.canvas.onMouseUp(event);
 }
 
+function colorPickerChange(color) {
+   _canvasBag.canvas.settings.stroke.color = color;
+}
+
 class CanvasAppStore extends EventEmitter {
    constructor(){
       super();
@@ -162,6 +166,11 @@ CanvasAppDispatcher.register((action) => {
       case CanvasAppConstants.CHANGE_FIGURE_COLOR:
          changeFigureColor(action.value);
          console.log('change figure color');
+         canvasAppStore.emitChange();
+         break;
+
+      case CanvasAppConstants.COLOR_PICKER_CHANGE:
+         colorPickerChange(action.value);
          canvasAppStore.emitChange();
          break;
 

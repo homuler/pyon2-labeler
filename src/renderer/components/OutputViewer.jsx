@@ -20,6 +20,13 @@ export class OutputViewer extends React.Component {
       format: 'json'
    }
 
+   getFilePath(url) {
+      if (url === null || url === undefined) {
+         return null;
+      }
+      return url.substring(url.indexOf("://") + 3);
+   }
+
    toXML(figure) {
       var json = this.toJSON(figure);
       return '<object>' + 
@@ -48,7 +55,7 @@ export class OutputViewer extends React.Component {
    genJSONData() {
       return {
          objects: this.props.figures.map((f) => this.toJSON(f)),
-         filepath: this.props.imgPath
+         filepath: this.getFilePath(this.props.imgPath)
       };
    }
 
@@ -57,7 +64,7 @@ export class OutputViewer extends React.Component {
                      .reduce((acc, d) => { return acc + d; });
          
       return '<annotation>' +
-         '<filename>' + this.props.imgPath + '</filename>' + 
+         '<filename>' + this.getFilePath(this.props.imgPath) + '</filename>' + 
          objects + 
          '</annotation>';
    }
@@ -83,16 +90,91 @@ export class OutputViewer extends React.Component {
                value={this.genData()} 
                wrap='soft' 
                readOnly />
-            <button onClick={this._onClickSave}>Save</button>
+            <div className='btn-group'>
+               <button onClick={this._onClickSave}>Save</button>
+               <button onClick={this._onClickAppend}>Append</button>
+            </div>
          </div>
       );
    }
 
    _onClickSave = (e) => {
       dialog.showSaveDialog(BrowserWindow.getFocusedWindow(),
-            {},
-            (filename) => {
-               fs.writeFile(filename, this.genData());
-            });      
+            {}, 
+            (filepath) => {
+               try {
+                  switch (this.props.format) {
+                     case 'json': 
+                        this.writeJSON(filepath);
+                        break;
+                     case 'xml':
+                        this.writeXML(filepath);
+                        break;
+                     default:
+                        break;
+                  }
+               } catch (e) {
+
+               }
+            });
+   }
+
+   _onClickAppend = (e) => {
+      dialog.showSaveDialog(BrowserWindow.getFocusedWindow(),
+            {
+               filters:
+                  [
+                     { name: 'Label Data', extensions: ['json', 'xml', 'txt'] }
+                  ]
+            },
+            (filepath) => {
+               try {
+                  switch (this.props.format) {
+                     case 'json': 
+                        this.appendJSON(filepath);
+                        break;
+                     case 'xml':
+                        this.appendXML(filepath);
+                        break;
+                     default:
+                        break;
+                  }
+               } catch (e) {
+                  console.log(e);
+               }
+            });
+   }
+
+   writeJSON(filepath) {
+      fs.writeFile(filepath, this.genData());
+   }
+
+   appendJSON(filepath) {
+      var labelData = this.genJSONData(),
+          labelList = JSON.parse(fs.readFileSync(filepath)),
+          found = false;
+          
+      if (labelList.length === undefined) {
+         labelList = [labelList];
+      }
+      labelList.reduce((acc, json) => {
+         if (json.filepath) {
+            console.log(json.filepath, labelData.filepath);
+            if (json.filepath === labelData.filepath) {
+               if (!found) {
+                  acc.push(json);
+                  found = true;
+               }
+            } else {
+               acc.push(json);
+            }
+         }
+         return acc;
+      }, []);
+      if (!found) {
+         labelList.push(labelData);
+      }
+
+      fs.writeFile(filepath, JSON.stringify(labelList));
    }
 }

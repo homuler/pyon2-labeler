@@ -9,7 +9,7 @@ $blue: #4290DD;
 }
 
 .sub-ctrl-label  {
-   width: 50px;
+   width: 100px;
    display: inline-block;
    padding: 3px;
    border-radius: 5px;
@@ -96,16 +96,6 @@ $blue: #4290DD;
    div {
       display: inline-block;
    }
-   .figure-color-sub-editor {
-      margin-right: 10px;
-      .sub-ctrl-label {
-         color: white;
-      }
-      .a-color {
-         color: black;
-         border-width: 1px;
-      }
-   }
 }
 
 .figure-line-width-editor {
@@ -154,3 +144,53 @@ $blue: #4290DD;
    }
 }
 
+.color-picker { 
+   canvas {
+      float: left;
+      width: 200px;
+      height: 200px;
+   }
+   input {
+      transform: rotate(90deg);
+   }
+}
+
+.color-viewer {
+   float: left;
+   > div {
+     display: block;
+   }
+}
+
+.color-picker-main {
+   margin: 10px 0px 10px 50px;
+   width: 65%;
+   canvas {
+      display: inline-block;
+   }
+}
+
+.color-la-ctrl {
+   position: relative;
+   left: 50%;
+   top: -200px;
+   .color-l-ctrl {
+      input {
+         position: relative;
+         top: 70px;
+         width: 150px;
+      }
+   }
+   .color-a-ctrl {
+      position: relative;
+      left: -70px;
+      input {
+         position: relative;
+         top: 70px;
+         width: 150px;
+      }
+   }
+   .sub-ctrl-label {
+      display: block;
+   }
+}

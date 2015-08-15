@@ -138,7 +138,8 @@ export class Rectangle {
    draw(ctx) {
       ctx.save();
       if (this.color !== null) {
-         ctx.strokeStyle = util.rgbaToString(this.color);
+         ctx.strokeStyle = util.hslaToString(this.color);
+         console.log(ctx.strokeStyle, util.hslaToString(this.color));
       }
       if (this.lineWidth !== null) {
          ctx.lineWidth = this.lineWidth;
@@ -166,7 +167,7 @@ export class Rectangle {
       ctx.font = '20px Palatino';
 
       var rect = this.getLabelRect(ctx);
-      ctx.fillStyle = util.rgbaToString(this.color);
+      ctx.fillStyle = util.hslaToString(this.color);
       ctx.fillRect(rect.left, rect.top, rect.width, rect.height);
       ctx.fillStyle = 'white';
       if (edit) {

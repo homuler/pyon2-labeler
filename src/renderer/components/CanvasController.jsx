@@ -47,7 +47,6 @@ export class CanvasController extends React.Component {
        );
    }
    render() {
-      console.log('Canvas Controller Render');
       return (
          <div className='canvas-controller'>
             <div className='controller-main'>

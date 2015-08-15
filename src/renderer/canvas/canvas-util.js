@@ -8,6 +8,14 @@ export function rgbaToString(rgba) {
          rgba.a + ')';
 }
 
+export function hslaToString(hsla) {
+   return 'hsla(' +
+         hsla.h + ',' +
+         hsla.s + '%,' +
+         hsla.l + '%,' +
+         hsla.a + ')';
+}
+
 export function loadImage(ctx, imgPath, callback) {
    let image = new Image();
 

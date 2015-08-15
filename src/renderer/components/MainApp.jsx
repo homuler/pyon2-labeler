@@ -31,13 +31,12 @@ export class MainApp extends React.Component {
       canvasAppStore.removeChangeListener(this._onChange);
    }
    render() {
-      console.log('main render');
       var firstRender = this.state.canvas == null,
           defaultStroke = {
              color: {
-                r: 230,
-                g: 20,
-                b: 30,
+                h: 0,
+                s: 100,
+                l: 50,
                 a: 1.0
              },
              lineWidth: 2.0
@@ -61,7 +60,8 @@ export class MainApp extends React.Component {
                      figureSize={firstRender ? null 
                         : this.state.canvas.getRealFigureSize()} 
                      stroke={firstRender ? defaultStroke : 
-                        this.state.canvas.settings.stroke} />
+                        this.state.canvas.settings.stroke} 
+                     onColorChange={CanvasActions.colorPickerChange} />
                   <OutputViewer format={this.state.controller.format} 
                      figures={firstRender || !this.state.canvas.state.figures
                         ? []
@@ -77,6 +77,5 @@ export class MainApp extends React.Component {
    }
    _onChange = (e) => {
       this.setState(getCanvasState()); 
-      console.log('change', this.state);
    }
 }

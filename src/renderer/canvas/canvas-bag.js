@@ -25,9 +25,9 @@ export class VirtualCanvas {
       },
       stroke: {
          color: {
-            r: 230,
-            g: 20,
-            b: 20,
+            h: 0,
+            s: 100,
+            l: 50,
             a: 1.0
          },
          lineWidth: 2.0
@@ -60,6 +60,7 @@ export class VirtualCanvas {
       this.copyOffscreenToMain();
    }
    onMouseDown = (e) => {
+      console.log(this.settings.stroke.color);
       let point = this.getCurrentPoint(e);
       this.state.dragging = true;
       switch (this.state.mode) {
@@ -209,8 +210,8 @@ export class VirtualCanvas {
          height: this.state.currentFigure.figure.height * ratio.h
       };
    }
-   getCurrentRGBA() {
-      return util.rgbaToString(this.settings.stroke.color);
+   getCurrentHSLA() {
+      return util.hslaToString(this.settings.stroke.color);
    }
    hasVirtualSurface() {
       return this.settings.grid || this.settings.guide.on;

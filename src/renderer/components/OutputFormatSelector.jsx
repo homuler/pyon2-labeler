@@ -16,7 +16,6 @@ export class OutputFormatSelector extends React.Component {
       formats: ['json', 'xml', 'txt']
    }
    render() {
-      console.log('OutputFormatSelector render');
       let options = this.props.formats.map((f, i) => {
          return (
             <option value={f} key={'format-' + i}>{f}</option>

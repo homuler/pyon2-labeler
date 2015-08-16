@@ -51,35 +51,37 @@ export class FigureEditor extends React.Component {
                      value={this.props.stroke.lineWidth}
                      onChange={this._onChangeLineWidth} />
                </div>
-               <div className='figure-position-viewer'>
+               <div className='figure-pos-viewer'>
                   <div className='ctrl-label'>Figure Info</div>
-                  <div className='figure-pos-value'>
-                     <div className='sub-ctrl-label'>Left</div>
-                     <span>
-                        {this.props.figureSize ? 
-                           this.props.figureSize.left.toFixed(0) : '-'}
-                     </span>
-                  </div>
-                  <div className='figure-pos-value'>
-                     <div className='sub-ctrl-label'>Top</div>
-                     <span>
-                        {this.props.figureSize ? 
-                           this.props.figureSize.top.toFixed(0) : '-'}
-                     </span>
-                  </div>
-                  <div className='figure-pos-value'>
-                     <div className='sub-ctrl-label'>Width</div>
-                     <span>
-                        {this.props.figureSize ? 
-                           this.props.figureSize.width.toFixed(0) : '-'}
-                     </span>
-                  </div>
-                  <div className='figure-pos-value'>
-                     <div className='sub-ctrl-label'>Height</div>
-                     <span>
-                        {this.props.figureSize ? 
-                           this.props.figureSize.height.toFixed(0) : '-'}
-                     </span>
+                  <div className='figure-pos-viewer-main'>
+                     <div className='figure-pos-value'>
+                        <div className='sub-ctrl-label'>Left</div>
+                        <div>
+                           {this.props.figureSize ? 
+                              this.props.figureSize.left.toFixed(0) : '-'}
+                        </div>
+                     </div>
+                     <div className='figure-pos-value'>
+                        <div className='sub-ctrl-label'>Top</div>
+                        <div>
+                           {this.props.figureSize ? 
+                              this.props.figureSize.top.toFixed(0) : '-'}
+                        </div>
+                     </div>
+                     <div className='figure-pos-value'>
+                        <div className='sub-ctrl-label'>Width</div>
+                        <div>
+                           {this.props.figureSize ? 
+                              this.props.figureSize.width.toFixed(0) : '-'}
+                        </div>
+                     </div>
+                     <div className='figure-pos-value'>
+                        <div className='sub-ctrl-label'>Height</div>
+                        <div>
+                           {this.props.figureSize ? 
+                              this.props.figureSize.height.toFixed(0) : '-'}
+                        </div>
+                     </div>
                   </div>
                </div>
             </div>
@@ -88,31 +90,6 @@ export class FigureEditor extends React.Component {
    }
    _onChangeLabel = (e) => {
       CanvasActions.changeLabel({ label: e.target.value });
-   }
-   _onChangeColor = (e) => {
-      var obj = {
-         r: this.props.stroke.color.r,
-         g: this.props.stroke.color.g,
-         b: this.props.stroke.color.b,
-         a: this.props.stroke.color.a
-      };
-      switch (e.target.name) {
-         case 'r-color': 
-            obj.r = +e.target.value;
-            break;
-         case 'g-color': 
-            obj.g = +e.target.value;
-            break;
-         case 'b-color': 
-            obj.b = +e.target.value;
-            break;
-         case 'a-color': 
-            obj.a = +e.target.value;
-            break;
-         default: 
-            break;
-      }
-      CanvasActions.changeFigureColor(obj);
    }
    _onChangeLineWidth= (e) => {
       CanvasActions.changeLineWidth({ lineWidth: +e.target.value });

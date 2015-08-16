@@ -56,7 +56,7 @@ export class CanvasController extends React.Component {
                {this.renderGuidewireCheck()}
                <OutputFormatSelector format={this.props.format} />
                <div className='figure-aspect-ctrl'>
-                  <div className='ctrl-label'>Fix Aspect Ratio</div>
+                  <div className='ctrl-label'>Fix Aspect</div>
                   <input name='aspect-fix=check'
                      type='checkbox'
                      checked={this.props.aspectFix}
@@ -84,14 +84,12 @@ export class CanvasController extends React.Component {
                   <div className='ctrl-label'>Operation</div>
                   <div className='btn-group'>
                      <div className='eraser-op'>
-                        <input type='button' value='Erase All' />
+                        <input type='button' value='Reset' 
+                           onClick={this._onClickReset} />
                      </div>
-                     <div className='save-op'>
-                        <input type='button' value='Save Label' />
-                     </div>
-                     <div className='back-op'>
-                        <input type='button' 
-                           value='Back' onClick={this._onClickBackButton} />
+                     <div className='delete-op'>
+                        <input type='button' value='Delete' 
+                           onClick={this._onClickDelete} />
                      </div>
                   </div>
                </div>
@@ -140,8 +138,13 @@ export class CanvasController extends React.Component {
    _onFigureChange = (e, obj) => {
       this.props.onChange(e, obj);
    }
-   _onClickBackButton = (e) => {
-      CanvasActions.redoDrawing();
+
+   _onClickReset = (e) => {
+      CanvasActions.resetCanvas();
+   }
+
+   _onClickDelete = (e) => {
+      CanvasActions.deleteFigure();
    }
 }
 

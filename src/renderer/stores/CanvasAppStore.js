@@ -18,6 +18,17 @@ function defaultCanvasBag() {
    };
 }
 
+function resetCanvasBag() {
+   _canvasBag.canvas.reset();
+}
+
+function deleteFigure() {
+   if (!_canvasBag.canvas === null) {
+      throw ('CanvasBag is not initialized yet.');
+   }
+   _canvasBag.canvas.deleteCurrentFigure();
+}
+
 function switchCanvasMode(obj) {
    _canvasBag.canvas.state.mode = obj.mode;
    _canvasBag.canvas.redrawAll();
@@ -49,13 +60,6 @@ function loadImage(obj) {
    _canvasBag.canvas.clearFigures();
 }
 
-function redoDrawing() {
-   if (_canvasBag.canvas == null) {
-      throw ('CanvasBag is not initialized yet.');
-   }
-   _canvasBag.canvas.redoDrawing();
-}
-
 function switchAspectFixMode() {
    if (_canvasBag.canvas == null) {
       throw ('CanvasBag is not initialized yet.');
@@ -72,6 +76,7 @@ function changeAspectRatio(obj) {
 }
 
 function changeFigureColor(obj) {
+   console.log('changeFigureColor');
    if (_canvasBag.canvas == null) {
       throw ('CanvasBag is not initialized yet.');
    }
@@ -117,7 +122,21 @@ function mouseUpOnCanvas(event) {
 }
 
 function colorPickerChange(color) {
+   if (_canvasBag.canvas == null) {
+      throw ('CanvasBag is not initialized yet.');
+   }
    _canvasBag.canvas.settings.stroke.color = color;
+   if (_canvasBag.canvas.state.currentFigure.figure
+           && _canvasBag.canvas.state.mode === 'Edit') {
+      _canvasBag.canvas.state.currentFigure.figure.color = color;
+      _canvasBag.canvas.redrawAll();
+      _canvasBag.canvas.state.currentFigure.figure.focus(_canvasBag.canvas.offscreenCtx);
+      _canvasBag.canvas.saveDrawingSurface();
+      if (_canvasBag.canvas.hasVirtualSurface()) {
+         _canvasBag.canvas.drawVirtualSurface();
+      }
+      _canvasBag.canvas.copyOffscreenToMain();
+   }
 }
 
 class CanvasAppStore extends EventEmitter {
@@ -147,6 +166,11 @@ CanvasAppDispatcher.register((action) => {
    switch(action.actionType) {
       case CanvasAppConstants.INITIALIZE_CANVAS:
          canvasAppStore.setCanvasBag(action.value);
+         canvasAppStore.emitChange();
+         break;
+
+      case CanvasAppConstants.RESET_CANVAS:
+         resetCanvasBag();
          canvasAppStore.emitChange();
          break;
 
@@ -215,6 +239,10 @@ CanvasAppDispatcher.register((action) => {
       case CanvasAppConstants.ERASE_ALL:
          break;
 
+      case CanvasAppConstants.DELETE_FIGURE:
+         deleteFigure();
+         break;
+ 
       case CanvasAppConstants.MOUSE_DOWN_ON_CANVAS:
          mouseDownOnCanvas(action.value);
          canvasAppStore.emitChange();

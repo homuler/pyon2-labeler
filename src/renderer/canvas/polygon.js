@@ -139,7 +139,6 @@ export class Rectangle {
       ctx.save();
       if (this.color !== null) {
          ctx.strokeStyle = util.hslaToString(this.color);
-         console.log(ctx.strokeStyle, util.hslaToString(this.color));
       }
       if (this.lineWidth !== null) {
          ctx.lineWidth = this.lineWidth;

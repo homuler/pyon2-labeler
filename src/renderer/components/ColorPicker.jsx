@@ -28,26 +28,34 @@ export class ColorPicker extends React.Component {
          new CanvasPalette(React.findDOMNode(this.refs.colorPicker), this.props.color);
    }
 
+   componentDidUpdate() {
+      if (this.palette) {
+         this.palette.drawSelectColorPoint(this.props.color);
+      }
+   }
+
    render() {
       return (
          <div className='color-picker'>
             <div className='color-viewer'>
                <div className='ctrl-label'>Color</div>
-               <div>
-                  <div className='sub-ctrl-label'>Hue</div>
-                  <div className='color-viewer-hue'>{this.props.color.h}</div>
-               </div>
-               <div>
-                  <div className='sub-ctrl-label'>Saturation</div>
-                  <div className='color-viewer-saturation'>{this.props.color.s}%</div>
-               </div>
-               <div>
-                  <div className='sub-ctrl-label'>Lightness</div>
-                  <div className='color-viewer-lightness'>{this.props.color.l}%</div>
-               </div>
-               <div>
-                  <div className='sub-ctrl-label'>Alpha</div>
-                  <div className='color-viewer-alpha'>{this.props.color.a}</div>
+               <div className='color-viewer-main'>
+                  <div>
+                     <div className='sub-ctrl-label'>Hue</div>
+                     <div className='color-value-viewer'>{this.props.color.h}</div>
+                  </div>
+                  <div>
+                     <div className='sub-ctrl-label'>Saturation</div>
+                     <div className='color-value-viewer'>{this.props.color.s}%</div>
+                  </div>
+                  <div>
+                     <div className='sub-ctrl-label'>Lightness</div>
+                     <div className='color-value-viewer'>{this.props.color.l}%</div>
+                  </div>
+                  <div>
+                     <div className='sub-ctrl-label'>Alpha</div>
+                     <div className='color-value-viewer'>{this.props.color.a}</div>
+                  </div>
                </div>
             </div>
             <div className='color-picker-main'>
@@ -56,7 +64,7 @@ export class ColorPicker extends React.Component {
                   width={this.props.width} 
                   height={this.props.height}
                   onClick={this._onCanvasClick}></canvas>
-               <div className='color-la-ctrl'>
+               <div className='color-slider-ctrl'>
                   <div className='color-l-ctrl'>
                      <div className='sub-ctrl-label'>
                         Lightness

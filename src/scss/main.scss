@@ -9,11 +9,8 @@ $blue: #4290DD;
 }
 
 .sub-ctrl-label  {
-   width: 100px;
-   display: inline-block;
-   padding: 3px;
+   width: 150px;
    border-radius: 5px;
-   margin: 5px 10px;
    text-align: center;
 }
 
@@ -25,6 +22,7 @@ $blue: #4290DD;
    float: right;
    max-width: 40%;
    margin-right: 2%;
+   width: 40%;
 }
 
 .canvas-controller {
@@ -92,33 +90,10 @@ $blue: #4290DD;
    }
 }
 
-.figure-color-editor {
-   div {
-      display: inline-block;
-   }
-}
-
 .figure-line-width-editor {
    input {
       margin: 0px 10px;
    }
-}
-
-.r-color {
-   background-color: $red;
-}
-
-.g-color {
-   background-color: $green;
-}
-
-.b-color {
-   background-color: $blue;
-}
-
-.a-color {
-   background-color: white;
-   color: black;
 }
 
 .output-viewer {
@@ -134,63 +109,90 @@ $blue: #4290DD;
    }
 }
 
-.line-sample-viewer {
-   .line-sample {
-      width: 70%;
-      color: white;
-      color: white;
-      height: 10px;
-      display: inline-block;
-   }
-}
-
 .color-picker { 
-   canvas {
-      float: left;
-      width: 200px;
-      height: 200px;
-   }
-   input {
-      transform: rotate(90deg);
-   }
-}
+   display: flex;
+   flex-direction: row;
+   margin: 20px 0px;
 
-.color-viewer {
-   float: left;
-   > div {
-     display: block;
-   }
-}
-
-.color-picker-main {
-   margin: 10px 0px 10px 50px;
-   width: 65%;
-   canvas {
-      display: inline-block;
-   }
-}
-
-.color-la-ctrl {
-   position: relative;
-   left: 50%;
-   top: -200px;
-   .color-l-ctrl {
-      input {
-         position: relative;
-         top: 70px;
-         width: 150px;
+   .color-viewer {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      > div {
+         flex-grow: 1;
+      }
+      .color-viewer-main {
+         > div {
+            display: flex;
+            flex-direction: row;
+            padding: 5px;
+         }
+      }
+      .color-value-viewer {
+         width: 200px;
+         text-align: center;
       }
    }
-   .color-a-ctrl {
-      position: relative;
-      left: -70px;
+
+   .color-picker-main {
+      display: flex;
+      flex-direction: row;
+      margin: 10px;
+      canvas {
+         width: 40%;
+         height: 40%;
+      }
       input {
          position: relative;
-         top: 70px;
+         transform: rotate(90deg);
          width: 150px;
+         top: 80px;
+         left: -25px;
+      }
+
+      .color-slider-ctrl {
+         display: flex;
+         flex-direction: row;
+         width: 150px;
+         .sub-ctrl-label {
+            width: 100px;
+            font-size: 0.9em;
+         }
+         > div {
+            margin: 0px 10px 0px 10px;
+         }
       }
    }
-   .sub-ctrl-label {
-      display: block;
+}
+
+.figure-pos-viewer-main {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+
+   .figure-pos-value {
+      display: flex;
+      flex-direction: row;
+      div:last-child {
+         width: 100px;
+         text-align: center;
+      }
+   }
+}
+
+.output-viewer {
+   margin: 10px 0px;
+   .output-viewer-header {
+      margin: 0px 10px;
+   }
+   textarea {
+      margin-top: 5px;
+   }
+   .btn-group {
+      display: flex;
+      flex-direction: row;
+      button {
+         margin: 0px 5px;
+      }
    }
 }

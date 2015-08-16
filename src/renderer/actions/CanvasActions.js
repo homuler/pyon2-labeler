@@ -11,6 +11,12 @@ export class CanvasActions {
       });
    }
 
+   static resetCanvas() {
+      CanvasAppDispatcher.dispatch({
+         actionType: CanvasAppConstants.RESET_CANVAS
+      });
+   }
+
    static loadImage(obj) {
       CanvasAppDispatcher.dispatch({
          actionType: CanvasAppConstants.LOAD_IMAGE,
@@ -75,6 +81,12 @@ export class CanvasActions {
       CanvasAppDispatcher.dispatch({
          actionType: CanvasAppConstants.CHANGE_LABEL,
          value: obj
+      });
+   }
+
+   static deleteFigure() {
+      CanvasAppDispatcher.dispatch({
+         actionType: CanvasAppConstants.DELETE_FIGURE
       });
    }
 

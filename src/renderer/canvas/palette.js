@@ -52,8 +52,18 @@ export class CanvasPalette {
       this.ctx.restore();
    }
 
+   hslaToLoc(hsla) {
+      var hw = this.canvas.width / 2,
+          hh = this.canvas.height / 2;
+      console.log(this.r, Math.cos(hsla.h / 180 * Math.PI));
+      console.log(this.r, Math.sin(hsla.h / 180 * Math.PI));
+      return {
+         x: hw + hsla.s / 100 * this.r * Math.cos(hsla.h / 180 * Math.PI),
+         y: hh - hsla.s / 100 * this.r * Math.sin(hsla.h / 180 * Math.PI)
+      };
+   }
+
    locToHSLA(loc) {
-      console.log(loc);
       var hw = this.canvas.width / 2,
           hh = this.canvas.height / 2,
           h = (Math.floor(Math.atan2(loc.x - hw, loc.y - hh) / Math.PI / 2 * 360) + 360 + 270) % 360,
@@ -70,8 +80,6 @@ export class CanvasPalette {
    selectColor(e) {
       this.selected.point = util.windowToCanvas(this.canvas, e.clientX, e.clientY);
       this.selected.color = this.locToHSLA(this.selected.point);
-
-      this.drawSelectPoint();
    }
 
    drawSelectPoint() {
@@ -90,5 +98,12 @@ export class CanvasPalette {
       this.ctx.beginPath();
       this.ctx.strokeRect(loc.x - 10, loc.y - 10, 20, 20);
       this.ctx.restore();
+   }
+
+   drawSelectColorPoint(color) {
+      this.selected.point = this.hslaToLoc(color);
+      this.selected.color = color;
+      console.log(this.selected.point, this.selected.color, this.r);
+      this.drawSelectPoint();
    }
 }

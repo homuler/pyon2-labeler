@@ -54,13 +54,22 @@ export class VirtualCanvas {
 
       this.offscreenCanvas.width = this.canvas.width;
       this.offscreenCanvas.height = this.canvas.height;
-      this.defaultDisplay();
+      this.showDefaultDisplay();
+      this.saveDrawingSurface();
+      this.drawVirtualSurface();
+      this.copyOffscreenToMain();
+   }
+   reset() {
+      this.state.figures = [];
+      this.state.surfaceHistory = [];
+      this.offscreenCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.showDefaultDisplay();
       this.saveDrawingSurface();
       this.drawVirtualSurface();
       this.copyOffscreenToMain();
    }
    onMouseDown = (e) => {
-      console.log(this.settings.stroke.color);
       let point = this.getCurrentPoint(e);
       this.state.dragging = true;
       switch (this.state.mode) {
@@ -145,12 +154,9 @@ export class VirtualCanvas {
                      this.state.currentFigure.figure,
                      this.state.currentFigure.stretchPoint);
                this.drawAllFigures();
+               console.log(this.state.currentFigure.figure);
                if (this.state.currentFigure.figure) {
                   this.state.currentFigure.figure.focus(this.offscreenCtx);
-                  if (this.state.currentFigure.stretchPoint == 9) {
-                     this.state.currentFigure.figure.drawLabel(
-                           this.offscreenCtx, true);
-                  }
                } else {
                   this.focusOnAll();
                }
@@ -170,7 +176,7 @@ export class VirtualCanvas {
       console.log(e.dataTransfer.files[0]);
    }
 
-   defaultDisplay() {
+   showDefaultDisplay() {
       this.offscreenCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.offscreenCtx.save();
       this.offscreenCtx.textAlign = 'center';
@@ -181,7 +187,29 @@ export class VirtualCanvas {
       this.offscreenCtx.restore();
    }
 
+   deleteCurrentFigure() {
+      if (this.state.mode === EDIT_MODE && this.state.currentFigure.figure) {
+         for (let idx in this.state.figures) {
+            if (this.state.figures.hasOwnProperty(idx)) {
+               let fig = this.state.figures[idx];
+               if (fig === this.state.currentFigure.figure) {
+                  this.state.figures.splice(idx, 1);
+                  break;
+               }
+            }
+         }
+         this.redrawAll();
+         this.saveDrawingSurface();
+         if (this.hasVirtualSurface()) {
+            this.drawVirtualSurface();
+         }
+         this.copyOffscreenToMain();
+      }
+      this.state.currentFigure.figure = null;
+   }
+
    copyOffscreenToMain() {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.drawImage(this.offscreenCanvas,
             0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
    }
@@ -251,11 +279,12 @@ export class VirtualCanvas {
    restoreDrawingSurface() {
       var surfaceHistory = this.state.surfaceHistory;
       if (surfaceHistory.length > 0) {
-         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
          this.offscreenCtx.putImageData(surfaceHistory[surfaceHistory.length-1],
                0, 0);
       } else {
          this.offscreenCtx.clearRect(0, 0, this.offscreenCanvas.width, this.offscreenCanvas.height);
+         this.showDefaultDisplay();
+         this.saveDrawingSurface();
       }
    }
    selectFigureToEdit(loc) {
@@ -271,7 +300,6 @@ export class VirtualCanvas {
             this.state.currentFigure.stretchPoint = stretchPoint;
             this.settings.stroke.color = fig.color;
             this.settings.stroke.lineWidth = fig.lineWidth;
-            console.log('selected', fig);
             return;
          }
       }
@@ -287,13 +315,6 @@ export class VirtualCanvas {
       figure.focus(this.offscreenCtx, stretchPoint);
       figure.color = this.settings.stroke.color;
       figure.lineWidth = this.settings.stroke.lineWidth;
-   }
-   redoDrawing() {
-      if (this.state.surfaceHistory.length > 0) {
-         this.offscreenCtx.putImageData(this.state.surfaceHistory.pop(), 0, 0);
-         this.drawVirtualSurface();
-         this.copyOffscreenToMain();
-      }
    }
    getCurrentPoint(e) {
       return util.windowToCanvas(this.canvas, e.clientX, e.clientY);
@@ -349,8 +370,14 @@ export class VirtualCanvas {
       this.copyOffscreenToMain();
    }
    eraseAllFigures() {
-      this.offscreenCtx.drawImage(this.state.backgroundImage, 
-            0, 0, this.canvas.width, this.canvas.height);
+      if (this.state.backgroundImage) {
+         this.offscreenCtx.drawImage(this.state.backgroundImage, 
+             0, 0, this.canvas.width, this.canvas.height);
+        
+      } else {
+         this.offscreenCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+         this.showDefaultDisplay();
+      }
    }
    drawAllFigures() {
       for(let i in this.state.figures) {

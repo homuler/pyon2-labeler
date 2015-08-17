@@ -75,17 +75,6 @@ function changeAspectRatio(obj) {
    _canvasBag.canvas.settings.aspect.ratio = obj;
 }
 
-function changeFigureColor(obj) {
-   console.log('changeFigureColor');
-   if (_canvasBag.canvas == null) {
-      throw ('CanvasBag is not initialized yet.');
-   }
-   _canvasBag.canvas.settings.stroke.color = obj;
-   if (_canvasBag.canvas.state.currentFigure.figure) {
-      _canvasBag.canvas.state.currentFigure.figure.color = obj;
-   }
-}
-
 function changeLineWidth(obj) {
    if (_canvasBag.canvas == null) {
       throw ('CanvasBag is not initialized yet.');
@@ -147,6 +136,9 @@ function colorPickerChange(color) {
       throw ('CanvasBag is not initialized yet.');
    }
    _canvasBag.canvas.settings.stroke.color = color;
+   if (_canvasBag.canvas.state.currentFigure.figure) {
+      _canvasBag.canvas.state.currentFigure.figure.color = Object.assign({}, color);
+   }
    redrawCanvas();
 }
 

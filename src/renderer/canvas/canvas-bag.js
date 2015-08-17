@@ -294,7 +294,7 @@ export class VirtualCanvas {
             // change current color to the focused figure's color.
             this.state.currentFigure.figure = fig;
             this.state.currentFigure.stretchPoint = stretchPoint;
-            this.settings.stroke.color = fig.color;
+            this.settings.stroke.color = Object.assign({}, fig.color);
             this.settings.stroke.lineWidth = fig.lineWidth;
             return;
          }

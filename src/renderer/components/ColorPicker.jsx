@@ -23,15 +23,26 @@ export class ColorPicker extends React.Component {
       }
    }
 
+   state = {
+      prevColor: null
+   }
+
    componentDidMount() {
       this.palette = 
          new CanvasPalette(React.findDOMNode(this.refs.colorPicker), this.props.color);
    }
 
    componentDidUpdate() {
-      if (this.palette) {
+      if (this.palette !== null) {
+         if (this.prevColor !== null && this.prevColor !== undefined
+              && (this.props.color.l !== this.prevColor.l
+                  || this.props.color.a !== this.prevColor.a)) {
+            this.palette.drawHSLCircle(this.props.color.l, this.props.color.a);
+            this.palette.saveDrawingSurface();
+         }
          this.palette.drawSelectColorPoint(this.props.color);
       }
+      this.prevColor = this.props.color;
    }
 
    render() {
@@ -98,6 +109,7 @@ export class ColorPicker extends React.Component {
             this.palette.selected.color.l, this.palette.selected.color.a);
       this.palette.saveDrawingSurface();
       this.palette.drawSelectPoint();
+      console.log('lightness change');
       this.props.onChange(e, this.palette.getSelectedColor());
    }
 

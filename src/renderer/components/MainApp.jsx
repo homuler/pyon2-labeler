@@ -43,7 +43,7 @@ export class MainApp extends React.Component {
           };
       return (
          <div className='container'>
-            <div className='main'>
+            <div className='title-header'>
                <h1>{this.state.message}</h1>
             </div>
             <CanvasController 

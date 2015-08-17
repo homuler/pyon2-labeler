@@ -155,6 +155,12 @@ input[type='range'] {
    }
 }
 
+.title-header {
+   font-family: 'Poiret One', cursive;
+   letter-spacing: 3px;
+   font-size: 20px;
+}
+
 .canvas-editor {
    display: flex;
    flex-flow: row wrap;
@@ -183,6 +189,10 @@ input[type='range'] {
    flex-direction: column;
    >div {
       margin: 5px 0px;
+   }
+   .ctrl-label, label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 16px;
    }
    .canvas-mode-ctrl {
       select {
@@ -237,6 +247,12 @@ input[type='range'] {
 }
 
 .figure-editor-main {
+   .ctrl-label, label {
+      font-family: 'Raleway', sans-serif;
+   }
+   .sub-ctrl-label {
+      font-family: 'Lato', sans-serif;
+   }
    .figure-label-editor {
       input {
          margin: 0px 10px;
@@ -362,6 +378,7 @@ input[type='range'] {
    margin: 10px 0px;
    .output-viewer-header {
       margin: 0px 10px;
+      font-family: 'Raleway', sans-serif;
    }
    textarea {
       margin-top: 5px;
@@ -369,6 +386,7 @@ input[type='range'] {
       background-color: hsla(75, 90%, 80%, 0.1);
       width: 100%;
       height: 80px;
+      font-family: 'Inconsolata', monospace;
    }
    button {
       width: 70px;

@@ -40,19 +40,19 @@ export class ColorPicker extends React.Component {
             <div className='color-viewer'>
                <div className='ctrl-label'>Color</div>
                <div className='color-viewer-main'>
-                  <div>
+                  <div className='color-value-row'>
                      <div className='sub-ctrl-label'>Hue</div>
                      <div className='color-value-viewer'>{this.props.color.h}</div>
                   </div>
-                  <div>
+                  <div className='color-value-row'>
                      <div className='sub-ctrl-label'>Saturation</div>
                      <div className='color-value-viewer'>{this.props.color.s}%</div>
                   </div>
-                  <div>
+                  <div className='color-value-row'>
                      <div className='sub-ctrl-label'>Lightness</div>
                      <div className='color-value-viewer'>{this.props.color.l}%</div>
                   </div>
-                  <div>
+                  <div className='color-value-row'>
                      <div className='sub-ctrl-label'>Alpha</div>
                      <div className='color-value-viewer'>{this.props.color.a}</div>
                   </div>

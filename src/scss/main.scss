@@ -1,10 +1,19 @@
-$red: #EE3330;
-$green: #64CC50;
-$blue: #4290DD;
+$blue: hsla(200, 60%, 50%, 1.0);
+$lightBlue: hsla(190, 80%, 80%, 0.5);
+$darkBlue: hsla(210, 90%, 50%, 1.0);
+$green: hsla(125, 60%, 50%, 1.0);
+$darkGreen: hsla(140, 30%, 30%, 1.0);
+$orange: hsla(45, 75%, 50%, 1.0);
+$lightOrange: hsla(50, 75%, 80%, 0.5);
+$darkOrange: hsla(30, 90%, 50%, 1.0);
+$navy: hsla(230, 70%, 30%, 1.0);
+$lightNavy: hsla(220, 70%, 50%, 1.0);
+$grey: hsla(0, 10%, 70%, 0.1);
+
 
 .ctrl-label {
    margin: 3px 10px;
-   width: 120px;
+   min-width: 120px;
    display: inline-block;
 }
 
@@ -12,6 +21,7 @@ $blue: #4290DD;
    width: 150px;
    border-radius: 5px;
    text-align: center;
+   padding: 2px 0px;
 }
 
 .btn-group {
@@ -22,16 +32,151 @@ $blue: #4290DD;
    }
 }
 
-.canvas-state-viewer {
-   float: right;
-   max-width: 40%;
-   margin-right: 2%;
-   width: 40%;
+button {
+   &:hover {
+      box-shadow: 1px 1px 1px 1px hsla(0, 10%, 70%, 0.3);
+      transition: 500ms;
+   }
+   &.reset-op {
+      border: 2px solid $blue;
+      background: 0 0;
+      color: $darkBlue;
+      &:hover {
+         background-color: $lightBlue;
+      }
+   }
+   &.delete-op {
+      border: 2px solid $orange;
+      background: 0 0;
+      color: $darkOrange;
+      &:hover {
+         background-color: $lightOrange;
+      }
+   }
+   &.save-op {
+      border: 2px solid $blue;
+      background: 0 0;
+      color: $darkBlue;
+   }
+   &.append-op {
+      border: 2px solid $green;
+      background: 0 0;
+      color: $darkGreen;
+   }
 }
+
+select {
+   background-color: white;
+   border-radius: 5px 5px;
+   height: 25px;
+   min-width: 70px;
+   box-shadow: inset 0 1px 1px $grey;
+   border: 1px solid $grey;
+}
+
+input[type='checkbox'] {
+   display: none;
+   & + label.check-label {
+      display: inline-block;
+      margin: 3px 10px;
+      min-width: 120px;
+      vertical-align: middle;
+      &::after {
+         vertical-align: middle;
+         text-align: center;
+         position: relative;
+         left: 20px;
+         border: 2px solid $navy;
+         display: inline-block;
+         content: '';
+         width: 13px;
+         height: 13px;
+         color: $lightNavy;
+         font-weight: bold;
+      }
+   }
+   &:checked + label.check-label {
+      &::after {
+         content: '✓';
+      }
+   }
+}
+
+input[type='number'] {
+   border-radius: 5px 5px;
+   box-shadow: inset 0 1px 1px $grey;
+   border: 1px solid $grey;
+}
+
+input[type='text'] {
+   box-shadow: inset 0 -1px 1px $grey;
+   padding: 0px 5px;
+   border: 1px solid $grey;
+   height: 25px;
+}
+
+input[type='range'] {
+   -webkit-appearance: none;
+   &:focus {
+      outline: none;
+   }
+   &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      border-radius: 8px;
+      .color-l-ctrl & {
+         background-color: $navy;
+      }
+      .color-a-ctrl & {
+         background-color: $orange;
+      }
+      position: relative;
+      bottom: 3px;
+      width:16px;
+      height:16px;
+   }
+   &::-webkit-slider-runnable-track {
+      .color-l-ctrl & {
+         background-color: hsla(210, 90%, 50%, 0.1);
+      }
+      .color-a-ctrl & {
+         background-color: hsla(30, 90%, 50%, 0.1);
+      }
+      box-shadow: inset 0 1px 1px $grey;
+      border: none;
+      border-radius: 3px;
+      height: 10px;
+   }
+}
+
+.canvas-editor {
+   display: flex;
+   flex-flow: row wrap;
+   margin-top: 20px;
+   min-width: 1440px;
+   .canvas-state-viewer {
+      max-width: 40%;
+      min-width: 560px;
+      margin: 0px 20px;
+      margin-right: 2%;
+      width: 40%;
+      order: 2;
+   }
+   .canvas-container {
+      max-width: 55%;
+      canvas {
+         width: 100%;
+      }
+      order: 1;
+   }
+}
+
 
 .controller-main {
    display: flex;
    flex-direction: column;
+   >div {
+      margin: 5px 0px;
+   }
    .canvas-mode-ctrl {
       select {
          width: 70px;
@@ -42,7 +187,16 @@ $blue: #4290DD;
       display: flex;
       flex-direction: row;
       > div {
-         width: 200px;
+         min-width: 150px;
+         margin-right: 10px;
+      }
+      .ctrl-label {
+         min-width: 50px;
+      }
+      input[type='checkbox'] {
+         margin: 0px 10px;
+         width: 40px;
+         text-align: center;
       }
       .guidewire-ctrl {
          input {
@@ -57,7 +211,8 @@ $blue: #4290DD;
             flex-direction: row;
             input {
                width: 50px;
-               margin: 5px 10px;
+               padding: 2px 5px;
+               margin: 0px 10px;
             }
          }
       }
@@ -67,23 +222,26 @@ $blue: #4290DD;
       flex-direction: row;
       .btn-group {
          margin: 0px 5px;
+         button {
+            width: 70px;
+         }
       }
    }
 }
 
-.canvas-editor {
-   margin-top: 20px;
-}
-
-.figure-label-editor {
-   input {
-      margin: 0px 10px;
+.figure-editor-main {
+   .figure-label-editor {
+      input {
+         margin: 0px 10px;
+      }
    }
-}
-
-.figure-line-width-editor {
-   input {
-      margin: 0px 10px;
+   .figure-line-width-editor {
+      input {
+         margin: 0px 10px;
+         height: 25px;
+         width: 50px;
+         padding: 0px 5px;
+      }
    }
 }
 
@@ -94,12 +252,6 @@ $blue: #4290DD;
    }
 }
 
-.canvas-container {
-   canvas {
-      max-width: 55%;
-   }
-}
-
 .color-picker { 
    display: flex;
    flex-direction: row;
@@ -107,6 +259,7 @@ $blue: #4290DD;
 
    .color-viewer {
       width: 40%;
+      min-width: 180px;
       display: flex;
       flex-direction: column;
       > div {
@@ -119,9 +272,37 @@ $blue: #4290DD;
             padding: 5px;
          }
       }
+      .color-value-row {
+         &:nth-child(even) {
+            background-color: $grey;
+         }
+         &:nth-child(4n+1) {
+            .color-value-viewer {
+               border: 2px solid hsla(0, 80%, 70%, 1.0);
+            }
+         }
+         &:nth-child(4n+2) {
+            .color-value-viewer {
+               border: 2px solid hsla(120, 80%, 70%, 1.0);
+            }
+         }
+         &:nth-child(4n+3) {
+            .color-value-viewer {
+               border: 2px solid hsla(200, 80%, 70%, 1.0);
+            }
+         }
+         &:nth-child(4n+4) {
+            .color-value-viewer {
+               border: 2px solid hsla(0, 0%, 50%, 0.8);
+            }
+         }
+      }
       .color-value-viewer {
-         width: 200px;
+         width: 100px;
          text-align: center;
+         border: 2px solid $navy;
+         padding: 2px 5px;
+         margin: 0px 5px;
       }
    }
 
@@ -161,9 +342,15 @@ $blue: #4290DD;
    flex-direction: row;
    flex-wrap: wrap;
 
+   >div {
+      padding: 3px 0px;
+   }
    .figure-pos-value {
       display: flex;
       flex-direction: row;
+      &:first-child, &:last-child {
+         background-color: $grey;
+      }
       div:last-child {
          width: 100px;
          text-align: center;
@@ -178,5 +365,11 @@ $blue: #4290DD;
    }
    textarea {
       margin-top: 5px;
+      box-shadow: inset 1px 1px 1px $grey;
+      background-color: hsla(75, 90%, 80%, 0.1);
+   }
+   button {
+      width: 70px;
+      height: 25px;
    }
 }

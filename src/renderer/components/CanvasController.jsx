@@ -36,12 +36,13 @@ export class CanvasController extends React.Component {
    renderGuidewireCheck() {
       return (
          <div className='guidewire-ctrl'>
-            <div className='ctrl-label'>Guidewire</div>
             <input className='guidewire-check' 
                type='checkbox' 
                name='guidewire-check'
+               id='guidewire-check'
                onChange={this._onToggleGuideWire} 
                checked={this.props.guidewire} />
+            <label htmlFor='guidewire-check' className='check-label'>Guidewire</label>
           </div>
        );
    }
@@ -57,11 +58,12 @@ export class CanvasController extends React.Component {
                   {this.renderGuidewireCheck()}
                   <OutputFormatSelector format={this.props.format} />
                   <div className='figure-aspect-ctrl'>
-                     <div className='ctrl-label'>Fix Aspect</div>
-                     <input name='aspect-fix=check'
+                     <input name='aspect-fix-check'
+                        id='aspect-fix-check'
                         type='checkbox'
                         checked={this.props.aspectFix}
                         onChange={this._onSwitchAspectFixMode} />
+                     <label className='check-label' htmlFor='aspect-fix-check'>Fix Aspect</label>
                   </div>
                   {this.props.aspectFix ?
                      (

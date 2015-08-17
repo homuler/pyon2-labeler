@@ -48,7 +48,9 @@ export class OutputViewer extends React.Component {
             xmax: +figure.left.toFixed(0) + (+figure.width.toFixed(0)),
             ymin: +figure.top.toFixed(0),
             ymax: +figure.top.toFixed(0) + (+figure.height.toFixed(0))
-         }
+         },
+         color: figure.color,
+         lineWidth: figure.lineWidth
       };
    }
 
@@ -91,8 +93,10 @@ export class OutputViewer extends React.Component {
                wrap='soft' 
                readOnly />
             <div className='btn-group'>
-               <button onClick={this._onClickSave}>Save</button>
-               <button onClick={this._onClickAppend}>Append</button>
+               <button className='save-op'
+                  onClick={this._onClickSave}>Save</button>
+               <button className='append-op'
+                  onClick={this._onClickAppend}>Append</button>
             </div>
          </div>
       );

@@ -33,6 +33,7 @@ export class FigureEditor extends React.Component {
                <div className='figure-label-editor'>
                   <div className='ctrl-label'>Label Name</div>
                   <input name='figure-label' placeholder='label' 
+                     type='text'
                      value={this.props.label ? this.props.label : ''}
                      onChange={this._onChangeLabel} />
                </div>

@@ -40,6 +40,10 @@ gulp.task('watch', function() {
    gulp.watch('src/**/*.html', ['html']);
 });
 
+gulp.task('build', ['html', 'sass', 'scripts'], function() {
+
+});
+
 function handleError(err) {
    console.log(err.toString());
    this.emit('end');

@@ -53,44 +53,46 @@ export class CanvasController extends React.Component {
                   <div className='ctrl-label'>Canvas Mode</div>
                   {this.renderModeSelector()}
                </div>
-               {this.renderGuidewireCheck()}
-               <OutputFormatSelector format={this.props.format} />
-               <div className='figure-aspect-ctrl'>
-                  <div className='ctrl-label'>Fix Aspect</div>
-                  <input name='aspect-fix=check'
-                     type='checkbox'
-                     checked={this.props.aspectFix}
-                     onChange={this._onSwitchAspectFixMode} />
-               </div>
-               {this.props.aspectFix ?
-                  (
-                     <div className='figure-aspect-ratio-ctrl'>
-                        <div className='ctrl-label'>Aspect Ratio</div>
-                        <div>
-                           <input name='aspect-x'
-                              type='number'
-                              defaultValue={this.props.aspectRatio.x}
-                              onChange={this._onChangeAspectRatio} />
-                           <span>:</span>
-                           <input name='aspect-y'
-                              type='number'
-                              defaultValue={this.props.aspectRatio.y}
-                              onChange={this._onChangeAspectRatio} />
+               <div className='canvas-misc-ctrl'>
+                  {this.renderGuidewireCheck()}
+                  <OutputFormatSelector format={this.props.format} />
+                  <div className='figure-aspect-ctrl'>
+                     <div className='ctrl-label'>Fix Aspect</div>
+                     <input name='aspect-fix=check'
+                        type='checkbox'
+                        checked={this.props.aspectFix}
+                        onChange={this._onSwitchAspectFixMode} />
+                  </div>
+                  {this.props.aspectFix ?
+                     (
+                        <div className='figure-aspect-ratio-ctrl'>
+                           <div className='ctrl-label'>Ratio</div>
+                           <div className='figure-aspect-value'>
+                              <input name='aspect-x'
+                                 type='number'
+                                 defaultValue={this.props.aspectRatio.x}
+                                 onChange={this._onChangeAspectRatio} />
+                              <span>:</span>
+                              <input name='aspect-y'
+                                 type='number'
+                                 defaultValue={this.props.aspectRatio.y}
+                                 onChange={this._onChangeAspectRatio} />
+                           </div>
                         </div>
-                     </div>
-                  ) : []
-               }
+                     ) : []
+                  }
+               </div>
                <div className='operation-ctrl'>
                   <div className='ctrl-label'>Operation</div>
                   <div className='btn-group'>
-                     <div className='eraser-op'>
-                        <input type='button' value='Reset' 
-                           onClick={this._onClickReset} />
-                     </div>
-                     <div className='delete-op'>
-                        <input type='button' value='Delete' 
-                           onClick={this._onClickDelete} />
-                     </div>
+                     <button className='reset-op' 
+                        onClick={this._onClickReset}>
+                        <span>Reset</span>
+                     </button>
+                     <button className='delete-op'
+                        onClick={this._onClickDelete}>
+                        <span>Delete</span>
+                     </button>
                   </div>
                </div>
             </div>

@@ -14,8 +14,12 @@ $blue: #4290DD;
    text-align: center;
 }
 
-.btn-group input[type='button'] {
-   margin-right: 5px;
+.btn-group {
+   display: flex;
+   flex-direction: row;
+   button {
+      margin: 0px 5px;
+   }
 }
 
 .canvas-state-viewer {
@@ -25,63 +29,50 @@ $blue: #4290DD;
    width: 40%;
 }
 
-.canvas-controller {
-   display: inline-block;
+.controller-main {
+   display: flex;
+   flex-direction: column;
+   .canvas-mode-ctrl {
+      select {
+         width: 70px;
+         margin: 0px 10px;
+      }
+   }
+   .canvas-misc-ctrl {
+      display: flex;
+      flex-direction: row;
+      > div {
+         width: 200px;
+      }
+      .guidewire-ctrl {
+         input {
+            margin: 0px 10px;
+         }
+      }
+      .figure-aspect-ratio-ctrl {
+         display: flex;
+         flex-direction: row;
+         .figure-aspect-value {
+            display: flex;
+            flex-direction: row;
+            input {
+               width: 50px;
+               margin: 5px 10px;
+            }
+         }
+      }
+   }
+   .operation-ctrl {
+      display: flex;
+      flex-direction: row;
+      .btn-group {
+         margin: 0px 5px;
+      }
+   }
 }
 
 .canvas-editor {
    margin-top: 20px;
-}
-
-.canvas-mode-ctrl {
-   select {
-      width: 70px;
-      margin: 0px 10px;
-   }
-}
-
-.guidewire-ctrl {
-   display: inline-block;
-   margin-right: 20px;
-   input {
-      margin: 5px 10px;
-   }
-}
-
-.output-format-ctrl {
-   display: inline-block;
-   margin-right: 20px;
-   select {
-      width: 70px;
-      margin: 0px 10px;
-   }
-}
-
-.figure-aspect-ctrl {
-   display: inline-block;
-   input {
-      margin: 5px 10px;
-   }
-}
-
-.figure-aspect-ratio-ctrl {
-   display: inline-block;
-   div {
-      display: inline-block;
-   }
-   input {
-      width: 50px;
-      margin: 5px 10px;
-   }
-}
-
-.operation-ctrl {
-   div {
-      display: inline-block;
-   }
-   .btn-group {
-      margin: 0px 10px;
-   }
 }
 
 .figure-label-editor {
@@ -187,12 +178,5 @@ $blue: #4290DD;
    }
    textarea {
       margin-top: 5px;
-   }
-   .btn-group {
-      display: flex;
-      flex-direction: row;
-      button {
-         margin: 0px 5px;
-      }
    }
 }

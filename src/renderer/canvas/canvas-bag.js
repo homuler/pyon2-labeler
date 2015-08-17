@@ -152,7 +152,6 @@ export class VirtualCanvas {
                      this.state.currentFigure.figure,
                      this.state.currentFigure.stretchPoint);
                this.drawAllFigures();
-               console.log(this.state.currentFigure.figure);
                if (this.state.currentFigure.figure) {
                   this.state.currentFigure.figure.focus(this.offscreenCtx);
                } else {
@@ -171,7 +170,6 @@ export class VirtualCanvas {
 
    onDrop = (e) => {
       e.preventDefault();
-      console.log(e.dataTransfer.files[0]);
    }
 
    showDefaultDisplay() {

@@ -28,7 +28,6 @@ export class CanvasPalette {
    }
 
    drawHSLCircle(lightness = 50, alpha = 1.0) {
-      console.log('draw');
       var hw = this.canvas.width/2,
           hh = this.canvas.height/2;
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -55,8 +54,6 @@ export class CanvasPalette {
    hslaToLoc(hsla) {
       var hw = this.canvas.width / 2,
           hh = this.canvas.height / 2;
-      console.log(this.r, Math.cos(hsla.h / 180 * Math.PI));
-      console.log(this.r, Math.sin(hsla.h / 180 * Math.PI));
       return {
          x: hw + hsla.s / 100 * this.r * Math.cos(hsla.h / 180 * Math.PI),
          y: hh - hsla.s / 100 * this.r * Math.sin(hsla.h / 180 * Math.PI)
@@ -103,7 +100,6 @@ export class CanvasPalette {
    drawSelectColorPoint(color) {
       this.selected.point = this.hslaToLoc(color);
       this.selected.color = color;
-      console.log(this.selected.point, this.selected.color, this.r);
       this.drawSelectPoint();
    }
 }

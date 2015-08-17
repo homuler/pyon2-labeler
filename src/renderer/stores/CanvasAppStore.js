@@ -10,7 +10,6 @@ var _canvasBag = defaultCanvasBag();
 
 function defaultCanvasBag() {
    return {
-      message: 'Pyon2 Labeler -Labeling Tool for Machine Learning-',
       controller: {
          format: 'json',
       },

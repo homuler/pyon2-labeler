@@ -296,6 +296,7 @@ export class VirtualCanvas {
       if (surfaceHistory.length > 0) {
          this.offscreenCtx.putImageData(surfaceHistory[surfaceHistory.length-1],
                0, 0);
+         this.clearRemainSpaces();
       } else {
          this.offscreenCtx.clearRect(0, 0, this.offscreenCanvas.width, this.offscreenCanvas.height);
          this.showDefaultDisplay();
@@ -384,13 +385,26 @@ export class VirtualCanvas {
       this.drawVirtualSurface();
       this.copyOffscreenToMain();
    }
+
+   clearRemainSpaces() {
+      var pos = this.calcImageSizeOnCanvas();
+      this.offscreenCtx.clearRect(pos.width + 1, 0, 
+              this.offscreenCanvas.width, 
+              this.offscreenCanvas.height);
+      this.offscreenCtx.clearRect(0, pos.height + 1, 
+              this.offscreenCanvas.width, 
+              this.offscreenCanvas.height);
+   }
    eraseAllFigures() {
+      console.log('call erase-all-figures.');
       if (this.state.backgroundImage) {
+         this.clearRemainSpaces();
+         var pos = this.calcImageSizeOnCanvas();
          this.offscreenCtx.drawImage(this.state.backgroundImage, 
-             0, 0, this.canvas.width, this.canvas.height);
-        
+             0, 0, pos.width, pos.height);
+         console.log('clear all');
       } else {
-         this.offscreenCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+         this.offscreenCtx.clearRect(0, 0, this.offscreenCanvas.width, this.offscreenCanvas.height);
          this.showDefaultDisplay();
       }
    }

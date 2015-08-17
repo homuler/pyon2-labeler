@@ -156,7 +156,7 @@ export class Rectangle {
          left: this.left + this.focusRadius + 5,
          top: this.top - 30,
          width: Math.min(this.width - this.focusRadius - 5, 
-               50 + ctx.measureText(this.label).width),
+               50 + ctx.measureText(this.label || 'label').width),
          height: 30
       };
    }

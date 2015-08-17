@@ -103,6 +103,7 @@ function changeLabel(obj) {
    if (_canvasBag.canvas.state.currentFigure.figure) {
       _canvasBag.canvas.state.currentFigure.figure.label = obj.label;
    }
+   redrawCanvas();
 }
 
 function changeFileFormat(obj) {
@@ -121,22 +122,32 @@ function mouseUpOnCanvas(event) {
    _canvasBag.canvas.onMouseUp(event);
 }
 
+function redrawCanvas() {
+   if (_canvasBag.canvas == null) {
+      throw ('CanvasBag is not initialized yet.');
+   }
+   
+   _canvasBag.canvas.redrawAll();
+   if (_canvasBag.canvas.state.mode === 'Edit') {
+      if (_canvasBag.canvas.state.currentFigure.figure) {
+         _canvasBag.canvas.state.currentFigure.figure.focus(_canvasBag.canvas.offscreenCtx);
+      } else {
+         _canvasBag.canvas.focusOnAll();
+      }
+   }
+   _canvasBag.canvas.saveDrawingSurface();
+   if (_canvasBag.canvas.hasVirtualSurface()) {
+      _canvasBag.canvas.drawVirtualSurface();
+   }
+   _canvasBag.canvas.copyOffscreenToMain();
+}
+
 function colorPickerChange(color) {
    if (_canvasBag.canvas == null) {
       throw ('CanvasBag is not initialized yet.');
    }
    _canvasBag.canvas.settings.stroke.color = color;
-   if (_canvasBag.canvas.state.currentFigure.figure
-           && _canvasBag.canvas.state.mode === 'Edit') {
-      _canvasBag.canvas.state.currentFigure.figure.color = color;
-      _canvasBag.canvas.redrawAll();
-      _canvasBag.canvas.state.currentFigure.figure.focus(_canvasBag.canvas.offscreenCtx);
-      _canvasBag.canvas.saveDrawingSurface();
-      if (_canvasBag.canvas.hasVirtualSurface()) {
-         _canvasBag.canvas.drawVirtualSurface();
-      }
-      _canvasBag.canvas.copyOffscreenToMain();
-   }
+   redrawCanvas();
 }
 
 class CanvasAppStore extends EventEmitter {

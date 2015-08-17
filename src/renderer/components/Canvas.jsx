@@ -52,7 +52,6 @@ export class Canvas extends React.Component {
    }
 
    onDrop = (e) => {
-      console.log(e.dataTransfer.files[0]);   
       if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
          CanvasActions.loadImage({ path: e.dataTransfer.files[0].path });
       }

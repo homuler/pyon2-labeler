@@ -221,12 +221,12 @@ export class VirtualCanvas {
          {
             width: this.canvas.width,
             height: this.canvas.height
+         },
+          baseSize = this.calcImageSizeOnCanvas(),
+          ratio = {
+             w: rawSize.width / baseSize.width,
+             h: rawSize.height / baseSize.height
          };
-
-      var ratio = {
-         w: rawSize.width / this.canvas.width,
-         h: rawSize.height / this.canvas.height
-      };
       return {
          left: this.state.currentFigure.figure.left * ratio.w,
          top: this.state.currentFigure.figure.top * ratio.h,
@@ -248,13 +248,32 @@ export class VirtualCanvas {
          this.drawGuideWires(loc);
       }
    }
-   setBackground(imgPath, x1 = 0, y1 = 0, x2 = this.canvas.width, y2 = this.canvas.height) {
+
+   calcImageSizeOnCanvas() {
+      var pos = {
+         x: 0, 
+         y: 0,
+         width: +this.canvas.width,
+         height: +this.canvas.height
+      },
+          image = this.state.backgroundImage ? this.state.backgroundImage : this.canvas;
+      if (9 * image.width >= 16 * image.height) {
+         pos.height = this.canvas.width * image.height / image.width;
+      } else {
+         pos.width = this.canvas.height * image.width / image.height;
+      }
+      return pos;
+   }
+
+   setBackground(imgPath) {
       this.restoreDrawingSurface();
 
       let image = new Image();
       image.onload = (e) => {
          this.state.backgroundImage = image;
-         this.offscreenCtx.drawImage(image, x1, y1, x2, y2);
+         var pos = this.calcImageSizeOnCanvas();
+         this.offscreenCtx.drawImage(image,
+                 pos.x, pos.y, pos.width, pos.height);
          this.saveDrawingSurface();
          this.drawVirtualSurface();
          this.copyOffscreenToMain();

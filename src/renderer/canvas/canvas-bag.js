@@ -145,9 +145,7 @@ export class VirtualCanvas {
                if (rect.height > 0 && rect.width > 0) {
                   this.state.figures.push(rect);
                }
-               this.state.currentFigure.figure = 
-                  new Rectangle(0, 0, 0, 0, 
-                        rect.color, rect.lineWidth);
+               this.state.currentFigure.figure = null;
                break;
             case EDIT_MODE:
                this.updateFocusedFigure(point,

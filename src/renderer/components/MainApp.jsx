@@ -20,9 +20,6 @@ export class MainApp extends React.Component {
    static propTypes = {
       message: React.PropTypes.string,
    }
-   static defaultProps = {
-      message: 'Hello, Electron!',
-   }
    state = getCanvasState()
    componentDidMount() {
       canvasAppStore.addChangeListener(this._onChange);
@@ -44,7 +41,8 @@ export class MainApp extends React.Component {
       return (
          <div className='container'>
             <div className='title-header'>
-               <h1>{this.state.message}</h1>
+               <h1>Pyon2 Labeler</h1>
+               <h2>-Labeling Tool for Machine Learning-</h2>
             </div>
             <CanvasController 
                mode={firstRender ? 'Draw' : this.state.canvas.state.mode}

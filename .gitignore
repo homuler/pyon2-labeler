@@ -1,7 +1,6 @@
 **/*.swap
 **/*~
 **/*#
-**/*.png
 **/.sass-cache
 node_modules/
 build/

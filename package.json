@@ -1,6 +1,6 @@
 {
   "name": "pyon2-labeler",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "main": "build/main.js",
   "scripts": {
@@ -19,10 +19,12 @@
     "browserify": "^11.0.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.0",
+    "gulp-electron": "0.0.8",
     "gulp-eslint": "^1.0.0",
     "gulp-load-plugins": "^0.10.0",
     "gulp-ruby-sass": "^1.0.5",
     "gulp-sourcemaps": "^1.5.2",
+    "lodash": "^3.10.1",
     "vinyl-source-stream": "^1.1.0"
   }
 }

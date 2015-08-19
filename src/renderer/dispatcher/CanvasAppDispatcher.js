@@ -1,4 +1,4 @@
 import {Dispatcher} from 'flux';
 
-export var CanvasAppDispatcher = new Dispatcher();
+export let CanvasAppDispatcher = new Dispatcher();
 

@@ -10,70 +10,70 @@ import {canvasAppStore} from '../stores/CanvasAppStore';
 import {Canvas} from './Canvas';
 
 function getCanvasState() {
-   return canvasAppStore.getCanvasState();
+  return canvasAppStore.getCanvasState();
 }
 
 export class MainApp extends React.Component {
-   constructor(props) {
-      super(props);
-   }
-   static propTypes = {
-      message: React.PropTypes.string,
-   }
-   state = getCanvasState()
-   componentDidMount() {
-      canvasAppStore.addChangeListener(this._onChange);
-   }
-   componentWillUnmount() {
-      canvasAppStore.removeChangeListener(this._onChange);
-   }
-   render() {
-      var firstRender = this.state.canvas == null,
-          defaultStroke = {
-             color: {
-                h: 0,
-                s: 100,
-                l: 50,
-                a: 1.0
-             },
-             lineWidth: 2.0
-          };
-      return (
-         <div className='container'>
-            <div className='title-header'>
-               <h1>Pyon2 Labeler</h1>
-               <h2>-Labeling Tool for Machine Learning-</h2>
-            </div>
-            <CanvasController 
-               mode={firstRender ? 'Draw' : this.state.canvas.state.mode}
-               format={this.state.controller.format} 
-               guidewire={firstRender ? true : this.state.canvas.settings.guide.on}
-               aspectFix={firstRender ? false : this.state.canvas.settings.aspect.fix}
-               aspectRatio={firstRender ? null : this.state.canvas.settings.aspect.ratio} />
-            <div className='canvas-editor'>
-               <div className='canvas-state-viewer'>
-                  <FigureEditor
-                     label={firstRender || !this.state.canvas.state.currentFigure.figure ? '' 
-                        : this.state.canvas.state.currentFigure.figure.label}
-                     figureSize={firstRender ? null 
-                        : this.state.canvas.getRealFigureSize()} 
-                     stroke={firstRender ? defaultStroke : 
-                        this.state.canvas.settings.stroke} 
-                     onColorChange={CanvasActions.colorPickerChange} />
-                  <OutputViewer format={this.state.controller.format} 
-                     figures={firstRender || !this.state.canvas.state.figures
-                        ? []
-                        : this.state.canvas.state.figures}
-                     imgPath={firstRender || !this.state.canvas.state.backgroundImage 
-                        ? null 
-                        : this.state.canvas.state.backgroundImage.src} />
-               </div>
-               <Canvas />
-            </div>
-         </div>
-      );
-   }
-   _onChange = (e) => {
-      this.setState(getCanvasState()); 
-   }
+  constructor(props) {
+    super(props);
+  }
+  static propTypes = {
+    message: React.PropTypes.string,
+  }
+  state = getCanvasState()
+  componentDidMount() {
+    canvasAppStore.addChangeListener(this._onChange);
+  }
+  componentWillUnmount() {
+    canvasAppStore.removeChangeListener(this._onChange);
+  }
+  render() {
+    let firstRender = this.state.canvas == null,
+        defaultStroke = {
+          color: {
+            h: 0,
+            s: 100,
+            l: 50,
+            a: 1.0
+          },
+          lineWidth: 2.0
+        };
+    return (
+      <div className='container'>
+        <div className='title-header'>
+          <h1>Pyon2 Labeler</h1>
+          <h2>-Labeling Tool for Machine Learning-</h2>
+        </div>
+        <CanvasController 
+          mode={firstRender ? 'Draw' : this.state.canvas.state.mode}
+          format={this.state.controller.format} 
+          guidewire={firstRender ? true : this.state.canvas.settings.guide.on}
+          aspectFix={firstRender ? false : this.state.canvas.settings.aspect.fix}
+          aspectRatio={firstRender ? null : this.state.canvas.settings.aspect.ratio} />
+        <div className='canvas-editor'>
+          <div className='canvas-state-viewer'>
+            <FigureEditor
+              label={firstRender || !this.state.canvas.state.currentFigure.figure ? '' 
+                     : this.state.canvas.state.currentFigure.figure.label}
+              figureSize={firstRender ? null 
+                          : this.state.canvas.getRealFigureSize()} 
+              stroke={firstRender ? defaultStroke : 
+                       this.state.canvas.settings.stroke} 
+              onColorChange={CanvasActions.colorPickerChange} />
+            <OutputViewer format={this.state.controller.format} 
+              figures={firstRender || !this.state.canvas.state.figures
+                   ? []
+                   : this.state.canvas.state.figures}
+              imgPath={firstRender || !this.state.canvas.state.backgroundImage 
+                   ? null 
+                   : this.state.canvas.state.backgroundImage.src} />
+          </div>
+          <Canvas />
+        </div>
+      </div>
+    );
+  }
+  _onChange = (e) => {
+    this.setState(getCanvasState()); 
+  }
 }

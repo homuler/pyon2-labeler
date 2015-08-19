@@ -18,17 +18,16 @@ gulp.task('resources', function() {
 
 gulp.task('scripts', function() {
    return gulp.src('src/**/*.{js,jsx}')
-      .pipe($.sourcemaps.init())
       .pipe($.babel({
          stage: 0
       }))
-      .pipe($.sourcemaps.write('.'))
+      .on('error', handleError)
       .pipe(gulp.dest('build'));
 });
 
 gulp.task('lint', function() {
    var eslint = require('gulp-eslint');
-   return gulp.src('src/js/**/*.{js, jsx}')
+   return gulp.src('src/renderer/**/*.{js,jsx}')
       .pipe(eslint({useEslintrc: true}))
       .pipe(eslint.format())
       .pipe(eslint.failAfterError());

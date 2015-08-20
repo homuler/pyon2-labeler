@@ -12,7 +12,8 @@ gulp.task('html', function() {
 });
 
 gulp.task('sass', function() {
-   return $.rubySass('src/scss/', { style: 'expanded' })
+    return gulp.src('src/scss/*.scss')
+      .pipe($.sass({ style: 'expanded' }).on('error', $.sass.logError))
       .pipe(gulp.dest('build/css'));
 });
 

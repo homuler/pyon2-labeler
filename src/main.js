@@ -24,7 +24,6 @@ app.on('ready', () => {
    mainWindow = new BrowserWindow({ width: 800, height: 600 });
 
    mainWindow.loadUrl('file://' + __dirname + constants.url.ROOT);
-   mainWindow.toggleDevTools();
    mainWindow.on('closed', () => {
       mainWindow = null;
    });

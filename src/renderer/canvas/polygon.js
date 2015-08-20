@@ -20,6 +20,16 @@ export class Rectangle {
         width = Math.abs(p1.x - p2.x);
     return new Rectangle(left, top, width, height, color, lineWidth);
   }
+
+  static jsonToFigure(json) {
+    return new Rectangle(json.boundingBox.xmin,
+            json.boundingBox.ymin,
+            json.boundingBox.xmax - json.boundingBox.xmin,
+            json.boundingBox.ymax - json.boundingBox.ymin,
+            json.color,
+            json.lineWidth);
+  }
+
   createPath(ctx) {
     ctx.beginPath();
     ctx.rect(this.left, this.top, this.width, this.height);

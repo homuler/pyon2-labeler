@@ -45,7 +45,7 @@ export class VirtualCanvas {
     surfaceHistory: [],
     figures: []
   }
-  constructor(canvas, actions) {
+  constructor(canvas, actions, imgPath = null, figureInfo = null) {
     this.canvas = canvas;
     this.actions = actions;
     this.ctx = this.canvas.getContext('2d');
@@ -54,7 +54,16 @@ export class VirtualCanvas {
 
     this.offscreenCanvas.width = this.canvas.width;
     this.offscreenCanvas.height = this.canvas.height;
-    this.showDefaultDisplay();
+    if (imgPath !== null) {
+      this.setBackground(imgPath, () => {
+        if (figureInfo !== null) {
+          this.state.figures = figureInfo.map(Rectangle.jsonToFigure);
+          this.redrawAll();
+        }
+      });
+    } else {
+      this.showDefaultDisplay();
+    }
     this.saveDrawingSurface();
     this.drawVirtualSurface();
     this.copyOffscreenToMain();
@@ -265,7 +274,7 @@ export class VirtualCanvas {
     return pos;
   }
 
-  setBackground(imgPath) {
+  setBackground(imgPath, callback) {
     this.restoreDrawingSurface();
 
     let image = new Image();
@@ -274,6 +283,9 @@ export class VirtualCanvas {
       let pos = this.calcImageSizeOnCanvas();
       this.offscreenCtx.drawImage(image,
         pos.x, pos.y, pos.width, pos.height);
+      if (callback) {
+        callback();
+      }
       this.saveDrawingSurface();
       this.drawVirtualSurface();
       this.copyOffscreenToMain();
@@ -396,13 +408,11 @@ export class VirtualCanvas {
       this.offscreenCanvas.height);
   }
   eraseAllFigures() {
-    console.log('call erase-all-figures.');
     if (this.state.backgroundImage) {
       this.clearRemainSpaces();
       let pos = this.calcImageSizeOnCanvas();
       this.offscreenCtx.drawImage(this.state.backgroundImage, 
         0, 0, pos.width, pos.height);
-      console.log('clear all');
     } else {
       this.offscreenCtx.clearRect(0, 0, this.offscreenCanvas.width, this.offscreenCanvas.height);
       this.showDefaultDisplay();

@@ -9,13 +9,20 @@ export class Canvas extends React.Component {
     super(props);
   }
 
-  static propTypes() {
-    focusedFigure: React.PropTypes.object
+  static defaultProp = {
+    imgPath: null,
+    figureInfo: null
+  }
+
+  static propTypes = {
+    imgPath: React.PropTypes.string,
+    figureInfo: React.PropTypes.array
   }
 
   componentDidMount() {
     let canvas = React.findDOMNode(this.refs.mainCanvas),
-        virtualCanvas = new VirtualCanvas(canvas, CanvasActions);
+        virtualCanvas = new VirtualCanvas(canvas, CanvasActions, 
+                this.props.imgPath, this.props.figureInfo);
     CanvasActions.initializeCanvas(virtualCanvas);
   }
 

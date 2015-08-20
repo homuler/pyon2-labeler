@@ -6,6 +6,7 @@ import {CanvasActions} from '../actions/CanvasActions';
 import {CanvasController} from './CanvasController';
 import {FigureEditor} from './FigureEditor';
 import {OutputViewer} from './OutputViewer';
+import {JSONListViewer} from './JSONListViewer';
 import {canvasAppStore} from '../stores/CanvasAppStore';
 import {Canvas} from './Canvas';
 
@@ -17,8 +18,15 @@ export class MainApp extends React.Component {
   constructor(props) {
     super(props);
   }
+  static defaultProp = {
+    imgPath: null,
+    figureInfo: null,
+    imgList: null
+  }
   static propTypes = {
-    message: React.PropTypes.string,
+    imgPath: React.PropTypes.string,
+    figureInfo: React.PropTypes.array,
+    imgList: React.PropTypes.array
   }
   state = getCanvasState()
   componentDidMount() {
@@ -68,7 +76,8 @@ export class MainApp extends React.Component {
                    ? null 
                    : this.state.canvas.state.backgroundImage.src} />
           </div>
-          <Canvas />
+          <Canvas imgPath={this.props.imgPath}
+            figureInfo={this.props.figureInfo} />
         </div>
       </div>
     );

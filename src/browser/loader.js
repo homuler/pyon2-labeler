@@ -33,3 +33,11 @@ export function loadImage(win, filepath) {
   loadPage(win, constants.url.ROOT, query);
 }
 
+export function loadJSONArray(win, filepath, index = 0) {
+  let query = {
+    type: constants.query.JSON_ARRAY_TYPE,
+    path: filepath,
+    index: index
+  };
+  loadPage(win, constants.url.ROOT, query);
+}

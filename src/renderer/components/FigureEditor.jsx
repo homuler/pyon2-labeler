@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {ColorPicker} from './ColorPicker';
-import {CanvasActions} from '../actions/CanvasActions';
+import CanvasActions from '../actions/CanvasActions';
 
 export class FigureEditor extends React.Component {
   constructor(props) {

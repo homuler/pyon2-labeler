@@ -23,6 +23,9 @@ function genTemplate(win) {
               properties: ['openFile']
             },
             function(filepath) {
+              if (!filepath) {
+                return;
+              }
               loader.loadImage(win, filepath);
             });
           } 
@@ -40,7 +43,16 @@ function genTemplate(win) {
               properties: ['openFile']
             },
             function(filepath) {
-              loader.loadJSON(win, filepath);
+              if (!filepath) {
+                return;
+              }
+              console.log('filepath = ', filepath);
+              let jsonData = fs.readFileSync(filepath[0]);
+              if (jsonData.length) {
+                loader.loadJSONArray(win, filepath[0]);
+              } else {
+                loader.loadJSON(win, filepath[0]);
+              }
             });
           } 
         }

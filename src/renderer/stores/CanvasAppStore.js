@@ -13,12 +13,27 @@ function defaultCanvasBag() {
     controller: {
       format: 'json',
     },
+    savedFigure: {
+      figureInfo: null,
+      figureIdx: -1
+    },
     canvas: null
   };
 }
 
-function resetCanvasBag() {
-  _canvasBag.canvas.reset();
+function selectCanvasImage(obj) {
+  if (obj.figureIdx !== undefined) {
+    _canvasBag.savedFigure.figureIdx = obj.figureIdx;
+  }
+}
+
+function resetCanvas(obj) {
+  console.log('reset canvas', obj);
+  if (obj) {
+    _canvasBag.canvas.reset(obj.imgPath, obj.figureInfo);
+  } else {
+    _canvasBag.canvas.reset();
+  }
 }
 
 function deleteFigure() {
@@ -141,6 +156,14 @@ function colorPickerChange(color) {
   redrawCanvas();
 }
 
+function moveImglistRight() {
+  _canvasBag.savedFigure.figureIdx++;
+}
+
+function moveImglistLeft() {
+  _canvasBag.savedFigure.figureIdx--;
+}
+
 class CanvasAppStore extends EventEmitter {
   constructor() {
     super();
@@ -172,7 +195,16 @@ CanvasAppDispatcher.register((action) => {
       break;
 
     case CanvasAppConstants.RESET_CANVAS:
-      resetCanvasBag();
+      if (action.value !== undefined && action.value !== null) {
+        resetCanvas(action.value);
+      } else {
+        resetCanvas();
+      }
+      canvasAppStore.emitChange();
+      break;
+
+    case CanvasAppConstants.SELECT_CANVAS_IMAGE:
+      selectCanvasImage(action.value);
       canvasAppStore.emitChange();
       break;
 
@@ -243,6 +275,16 @@ CanvasAppDispatcher.register((action) => {
       deleteFigure();
       break;
  
+    case CanvasAppConstants.MOVE_IMGLIST_RIGHT:
+      moveImglistRight();
+      canvasAppStore.emitChange();
+      break;
+
+    case CanvasAppConstants.MOVE_IMGLIST_LEFT:
+      moveImglistLeft();
+      canvasAppStore.emitChange();
+      break;
+
     case CanvasAppConstants.MOUSE_DOWN_ON_CANVAS:
       mouseDownOnCanvas(action.value);
       canvasAppStore.emitChange();

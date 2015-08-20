@@ -1,24 +1,30 @@
 'use strict';
 
 import React from 'react';
-import {CanvasActions} from '../actions/CanvasActions';
+import CanvasActions from '../actions/CanvasActions';
 import {OutputFormatSelector} from './OutputFormatSelector';
+import JSONListViewer from './JSONListViewer';
 
 export class CanvasController extends React.Component {
   constructor(props) {
     super(props);
   }
+
   static defaultProps = {
     mode: 'Draw',
     modes: ['Draw', 'Edit']
   }
+
   static propTypes = {
     mode: React.PropTypes.string.isRequired,
     format: React.PropTypes.string.isRequired,
     guidewire: React.PropTypes.bool.isRequired,
     aspectFix: React.PropTypes.bool.isRequired,
-    aspectRatio: React.PropTypes.object
+    aspectRatio: React.PropTypes.object,
+    imgList: React.PropTypes.array,
+    figureIdx: React.PropTypes.number
   }
+
   renderModeSelector() {
     let options = this.props.modes.map((f, i) => {
       return (
@@ -33,6 +39,7 @@ export class CanvasController extends React.Component {
       </select>
     );
   }
+
   renderGuidewireCheck() {
     return (
       <div className='guidewire-ctrl'>
@@ -46,6 +53,7 @@ export class CanvasController extends React.Component {
       </div>
     );
   }
+
   render() {
     return (
       <div className='canvas-controller'>
@@ -98,9 +106,14 @@ export class CanvasController extends React.Component {
             </div>
           </div>
         </div>
+        <div className='controller-sub-menu'>
+          <JSONListViewer imgList={this.props.imgList} 
+            figureIdx={this.props.figureIdx} />
+        </div>
       </div>
     );
   }
+
   _onSwitchCanvasMode = (e) => {
     CanvasActions.switchCanvasMode({ mode: e.target.value });
   }
@@ -139,6 +152,7 @@ export class CanvasController extends React.Component {
       CanvasActions.toggleGuideWire();
     }
   }
+
   _onFigureChange = (e, obj) => {
     this.props.onChange(e, obj);
   }

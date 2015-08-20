@@ -2,7 +2,7 @@
 
 import {VirtualCanvas} from '../canvas/canvas-bag';
 import React from 'react';
-import {CanvasActions} from '../actions/CanvasActions';
+import CanvasActions from '../actions/CanvasActions';
 import {CanvasController} from './CanvasController';
 import {FigureEditor} from './FigureEditor';
 import {OutputViewer} from './OutputViewer';
@@ -18,23 +18,38 @@ export class MainApp extends React.Component {
   constructor(props) {
     super(props);
   }
+
   static defaultProp = {
     imgPath: null,
     figureInfo: null,
+    figureIdx: null,
     imgList: null
   }
+
   static propTypes = {
     imgPath: React.PropTypes.string,
     figureInfo: React.PropTypes.array,
+    figureIdx: React.PropTypes.number,
     imgList: React.PropTypes.array
   }
+
   state = getCanvasState()
+
+  componentWillMount() {
+    CanvasActions.selectCanvasImage({
+      figureIdx: this.props.figureIdx,
+      figureInfo: this.props.figureInfo
+    });
+  }
+
   componentDidMount() {
     canvasAppStore.addChangeListener(this._onChange);
   }
+
   componentWillUnmount() {
     canvasAppStore.removeChangeListener(this._onChange);
   }
+
   render() {
     let firstRender = this.state.canvas == null,
         defaultStroke = {
@@ -57,7 +72,9 @@ export class MainApp extends React.Component {
           format={this.state.controller.format} 
           guidewire={firstRender ? true : this.state.canvas.settings.guide.on}
           aspectFix={firstRender ? false : this.state.canvas.settings.aspect.fix}
-          aspectRatio={firstRender ? null : this.state.canvas.settings.aspect.ratio} />
+          aspectRatio={firstRender ? null : this.state.canvas.settings.aspect.ratio} 
+          imgList={this.props.imgList}
+          figureIdx={this.state.savedFigure.figureIdx} />
         <div className='canvas-editor'>
           <div className='canvas-state-viewer'>
             <FigureEditor
@@ -77,11 +94,13 @@ export class MainApp extends React.Component {
                    : this.state.canvas.state.backgroundImage.src} />
           </div>
           <Canvas imgPath={this.props.imgPath}
-            figureInfo={this.props.figureInfo} />
+            figureInfo={this.state.savedFigure.figureInfo ||
+              this.props.figureInfo} />
         </div>
       </div>
     );
   }
+
   _onChange = (e) => {
     this.setState(getCanvasState()); 
   }

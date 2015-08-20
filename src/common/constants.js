@@ -6,7 +6,8 @@ let constants = {
   },
   query : {
     IMAGE_TYPE: 'image',
-    JSON_TYPE: 'json'
+    JSON_TYPE: 'json',
+    JSON_ARRAY_TYPE: 'json-array'
   }
 };
 

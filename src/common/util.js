@@ -20,7 +20,6 @@ export function jsonToQueryString(obj) {
         encodeURIComponent(obj[attr]);
     }
   }
-  console.log(obj, str);
   return str.substring(1);
 
   function arrayToString(arr) {
@@ -40,7 +39,6 @@ export function queryStringToJSON(str) {
 
   function getKeyValue(str) {
     let [k, v] = str.split('=');
-    console.log(k, parseValue(v));
     return [k, parseValue(v)].map(decodeURIComponent);
   }
 

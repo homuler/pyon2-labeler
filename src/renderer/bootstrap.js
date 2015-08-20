@@ -20,31 +20,34 @@ document.ondragover = (e) => {
 renderPage();
 
 function renderPage() {
-  let queryObj = util.queryStringToJSON(location.search.substring(1));
+  let queryObj = util.queryStringToJSON(location.search.substring(1)),
+      remote = require('remote'),
+      fs = remote.require('fs');
   console.log('query = ', queryObj);
   switch (queryObj.type) {
-    case constants.query.IMAGE_TYPE:
+    case constants.query.IMAGE_TYPE: {
       React.render(React.createElement(MainApp, { imgPath: queryObj.path }), 
               document.getElementById('main-app'));
       break;
-    case constants.query.JSON_TYPE:
-      let remote = require('remote'),
-          fs = remote.require('fs'),
-          jsonData = JSON.parse(fs.readFileSync(queryObj.path));
-      if (jsonData.length && jsonData.length > 0) {
-        let imgPath = jsonData[0].filepath,
-            figureInfo = jsonData[0].objects,
-            imgList = jsonData;
-        console.log(imgPath, figureInfo, imgList);
-        React.render(React.createElement(MainApp, { imgPath, figureInfo, imgList }),
-                document.getElementById('main-app'));
-      } else {
-        let imgPath = jsonData.filepath,
-            figureInfo = jsonData.objects;
+    }
+    case constants.query.JSON_TYPE: {
+      let jsonData = JSON.parse(fs.readFileSync(queryObj.path)),
+          imgPath = jsonData.filepath,
+          figureInfo = jsonData.objects;
         React.render(React.createElement(MainApp, { imgPath, figureInfo }), 
                 document.getElementById('main-app'));
-      }
       break;
+    }
+    case constants.query.JSON_ARRAY_TYPE: {
+      let jsonData = JSON.parse(fs.readFileSync(queryObj.path)),
+          figureIdx = +queryObj.index,
+          imgPath = jsonData[figureIdx].filepath,
+          figureInfo = jsonData[figureIdx].objects,
+          imgList = jsonData;
+        React.render(React.createElement(MainApp, { imgPath, figureInfo, figureIdx, imgList }),
+                document.getElementById('main-app'));
+      break;
+    }
     default:
       React.render(React.createElement(MainApp), 
               document.getElementById('main-app'));

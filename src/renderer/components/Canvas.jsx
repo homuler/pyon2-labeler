@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {VirtualCanvas} from '../canvas/canvas-bag';
-import {CanvasActions} from '../actions/CanvasActions';
+import CanvasActions from '../actions/CanvasActions';
 
 export class Canvas extends React.Component {
   constructor(props) {
@@ -19,16 +19,17 @@ export class Canvas extends React.Component {
     figureInfo: React.PropTypes.array
   }
 
-  componentDidMount() {
+  initCanvas() {
     let canvas = React.findDOMNode(this.refs.mainCanvas),
         virtualCanvas = new VirtualCanvas(canvas, CanvasActions, 
                 this.props.imgPath, this.props.figureInfo);
     CanvasActions.initializeCanvas(virtualCanvas);
   }
 
-  componentWillUnmount() {
-
+  componentDidMount() {
+    this.initCanvas();
   }
+
   render() {
     return (
       <div className='canvas-container'>

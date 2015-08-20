@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {CanvasAction} from '../actions/CanvasActions';
+import CanvasAction from '../actions/CanvasActions';
 import remote from 'remote';
 let BrowserWindow = remote.require('browser-window'),
     dialog = remote.require('dialog'),
@@ -156,29 +156,17 @@ export class OutputViewer extends React.Component {
   appendJSON(filepath) {
     let labelData = this.genJSONData(),
         labelList = JSON.parse(fs.readFileSync(filepath)),
-        found = false;
+        newLabelList = [labelData];
           
     if (labelList.length === undefined) {
-      labelList = [labelList];
+      labelList = [];
     }
-    labelList.reduce((acc, json) => {
-      if (json.filepath) {
-        console.log(json.filepath, labelData.filepath);
-        if (json.filepath === labelData.filepath) {
-          if (!found) {
-            acc.push(json);
-            found = true;
-          }
-        } else {
-          acc.push(json);
-        }
-      }
-      return acc;
+    labelList.forEach((json) => {
+      if (json.filepath && json.filepath !== labelData.filepath) {
+          newLabelList.push(json);
+      } 
     }, []);
-    if (!found) {
-      labelList.push(labelData);
-    }
 
-    fs.writeFile(filepath, JSON.stringify(labelList));
+    fs.writeFile(filepath, JSON.stringify(newLabelList));
   }
 }

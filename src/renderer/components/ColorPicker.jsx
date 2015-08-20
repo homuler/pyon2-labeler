@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {CanvasPalette} from '../canvas/palette';
-import {CanvasActions} from '../actions/CanvasActions';
+import CanvasActions from '../actions/CanvasActions';
 
 export class ColorPicker extends React.Component {
   constructor(props) {

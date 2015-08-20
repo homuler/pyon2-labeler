@@ -33,6 +33,7 @@ export class VirtualCanvas {
       lineWidth: 2.0
     }
   }
+
   state = {
     mode: DRAW_MODE,
     dragging: false,
@@ -45,6 +46,7 @@ export class VirtualCanvas {
     surfaceHistory: [],
     figures: []
   }
+
   constructor(canvas, actions, imgPath = null, figureInfo = null) {
     this.canvas = canvas;
     this.actions = actions;
@@ -68,16 +70,27 @@ export class VirtualCanvas {
     this.drawVirtualSurface();
     this.copyOffscreenToMain();
   }
-  reset() {
+
+  reset(imgPath = null, figureInfo = null) {
     this.state.figures = [];
     this.state.surfaceHistory = [];
     this.offscreenCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.showDefaultDisplay();
+    if (imgPath !== null) {
+      this.setBackground(imgPath, () => {
+        if (figureInfo !== null) {
+          this.state.figures = figureInfo.map(Rectangle.jsonToFigure);
+          this.redrawAll();
+        }
+      });
+    } else {
+      this.showDefaultDisplay();
+    }
     this.saveDrawingSurface();
     this.drawVirtualSurface();
     this.copyOffscreenToMain();
   }
+
   onMouseDown = (e) => {
     let point = this.getCurrentPoint(e);
     this.state.dragging = true;
@@ -107,6 +120,7 @@ export class VirtualCanvas {
         break;
     }
   }
+
   onMouseMove = (e) => {
     if (this.state.dragging || this.hasVirtualSurface()) {
       this.restoreDrawingSurface();
@@ -141,6 +155,7 @@ export class VirtualCanvas {
       this.copyOffscreenToMain();
     }
   }
+
   onMouseUp = (e) => {
     if (this.state.dragging) {
       let point = this.getCurrentPoint(e);
@@ -218,6 +233,7 @@ export class VirtualCanvas {
     this.ctx.drawImage(this.offscreenCanvas,
       0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
+
   getRealFigureSize() {
     if (this.state.currentFigure.figure === null) {
       return null;
@@ -243,12 +259,15 @@ export class VirtualCanvas {
       height: this.state.currentFigure.figure.height * ratio.h
     };
   }
+
   getCurrentHSLA() {
     return util.hslaToString(this.settings.stroke.color);
   }
+
   hasVirtualSurface() {
     return this.settings.grid || this.settings.guide.on;
   }
+
   drawVirtualSurface(loc = null, gridcolor = 'rgba(10, 20, 10, 0.3)') {
     if (this.settings.grid) {
       util.drawGrid(this.offscreenCtx, gridcolor);
@@ -292,17 +311,21 @@ export class VirtualCanvas {
     };
     image.src = imgPath;
   }
+
   clearFigures() {
     this.state.figures = [];
   }
+
   saveDrawingSurfaceTemp() {
     this.prevDrawingSurface = 
       this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
   }
+
   saveDrawingSurface() {
     this.state.surfaceHistory.push(
       this.offscreenCtx.getImageData(0, 0, this.canvas.width, this.canvas.height));
   }
+
   restoreDrawingSurface() {
     let surfaceHistory = this.state.surfaceHistory;
     if (surfaceHistory.length > 0) {
@@ -315,6 +338,7 @@ export class VirtualCanvas {
       this.saveDrawingSurface();
     }
   }
+
   selectFigureToEdit(loc) {
     for(let i in this.state.figures) {
       if(!this.state.figures.hasOwnProperty(i)) {
@@ -334,6 +358,7 @@ export class VirtualCanvas {
     this.state.currentFigure.figure = null;
     this.state.currentFigure.stretchPoint = null;
   }
+
   updateFocusedFigure(loc, figure, stretchPoint) {
     if (figure == null || stretchPoint == null) {
       return;
@@ -344,9 +369,11 @@ export class VirtualCanvas {
     figure.color = this.settings.stroke.color;
     figure.lineWidth = this.settings.stroke.lineWidth;
   }
+
   getCurrentPoint(e) {
     return util.windowToCanvas(this.canvas, e.clientX, e.clientY);
   }
+
   drawScope(ctx, loc) {
     let scale = this.settings.guide.scope.scale,
         radius = this.settings.guide.scope.radius;
@@ -374,10 +401,12 @@ export class VirtualCanvas {
       dirtyRect.x, dirtyRect.y, dirtyRect.width, dirtyRect.height);
     this.offscreenCtx.restore();
   }
+
   drawGuideWires = (loc) => {
     util.drawGuideWires(this.offscreenCtx, loc.x, loc.y);
     this.drawScope(this.offscreenCtx, loc);
   }
+
   updateCurrentFigure = (loc) => {
     let figure = this.state.currentFigure.figure,
         aspect = this.settings.aspect;
@@ -387,10 +416,12 @@ export class VirtualCanvas {
       figure.transform(loc, 8);
     }
   }
+
   drawCurrentFigure() {
     let figure = this.state.currentFigure.figure;
     figure.draw(this.offscreenCtx);
   }
+
   toggleGrid() {
     this.settings.grid = !this.settings.grid;
     this.restoreDrawingSurface();
@@ -407,6 +438,7 @@ export class VirtualCanvas {
       this.offscreenCanvas.width, 
       this.offscreenCanvas.height);
   }
+
   eraseAllFigures() {
     if (this.state.backgroundImage) {
       this.clearRemainSpaces();
@@ -418,16 +450,19 @@ export class VirtualCanvas {
       this.showDefaultDisplay();
     }
   }
+
   drawAllFigures() {
     for(let i in this.state.figures) {
       let fig = this.state.figures[i];
       fig.draw(this.offscreenCtx);
     }
   }
+
   redrawAll() {
     this.eraseAllFigures();
     this.drawAllFigures();
   }
+
   focusOnAll() {
     for(let i in this.state.figures) {
       if (!this.state.figures.hasOwnProperty(i)) {

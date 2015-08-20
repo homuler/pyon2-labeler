@@ -3,7 +3,7 @@
 import {CanvasAppDispatcher} from '../dispatcher/CanvasAppDispatcher';
 import {CanvasAppConstants} from '../constants/CanvasAppConstants';
 
-export class CanvasActions {
+class CanvasActions {
   static initializeCanvas(obj) {
     CanvasAppDispatcher.dispatch({
       actionType: CanvasAppConstants.INITIALIZE_CANVAS,
@@ -11,9 +11,24 @@ export class CanvasActions {
     });
   }
 
-  static resetCanvas() {
+  static resetCanvas(obj) {
     CanvasAppDispatcher.dispatch({
-      actionType: CanvasAppConstants.RESET_CANVAS
+      actionType: CanvasAppConstants.RESET_CANVAS,
+      value: obj
+    });
+  }
+
+  static selectCanvasImage(obj) {
+    CanvasAppDispatcher.dispatch({
+      actionType: CanvasAppConstants.SELECT_CANVAS_IMAGE,
+      value: obj
+    });
+  }
+
+  static shouldUpdateCanvas(obj) {
+    CanvasAppDispatcher.dispatch({
+      actionType: CanvasAppConstants.SHOULD_UPDATE_CANVAS,
+      value: obj
     });
   }
 
@@ -90,6 +105,18 @@ export class CanvasActions {
     });
   }
 
+  static moveImgListRight() {
+    CanvasAppDispatcher.dispatch({
+      actionType: CanvasAppConstants.MOVE_IMGLIST_RIGHT
+    });
+  }
+
+  static moveImgListLeft() {
+    CanvasAppDispatcher.dispatch({
+      actionType: CanvasAppConstants.MOVE_IMGLIST_LEFT
+    });
+  }
+
   static mouseDownOnCanvas(event) {
     CanvasAppDispatcher.dispatch({
       actionType: CanvasAppConstants.MOUSE_DOWN_ON_CANVAS,
@@ -111,3 +138,5 @@ export class CanvasActions {
     });
   }
 }
+
+module.exports = CanvasActions;

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {CanvasActions} from '../actions/CanvasActions';
+import CanvasActions from '../actions/CanvasActions';
 
 export class OutputFormatSelector extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ export class OutputFormatSelector extends React.Component {
   }
   static defaultProps = {
     format: 'json',
-    formats: ['json', 'xml', 'txt']
+    formats: ['json', 'xml']
   }
   render() {
     let options = this.props.formats.map((f, i) => {

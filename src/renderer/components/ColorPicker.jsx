@@ -29,7 +29,7 @@ export class ColorPicker extends React.Component {
 
   componentDidMount() {
     this.palette = 
-      new CanvasPalette(React.findDOMNode(this.refs.colorPicker), this.props.color);
+      new CanvasPalette(React.findDOMNode(this.refs.colorPicker), Object.assign({}, this.props.color));
   }
 
   componentDidUpdate() {

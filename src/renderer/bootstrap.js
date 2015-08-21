@@ -17,7 +17,7 @@ document.ondragover = (e) => {
   return false;
 };
 
-renderPage();
+let mainApp = renderPage();
 
 function renderPage() {
   let queryObj = util.queryStringToJSON(location.search.substring(1)),
@@ -26,16 +26,16 @@ function renderPage() {
   console.log('query = ', queryObj);
   switch (queryObj.type) {
     case constants.query.IMAGE_TYPE: {
-      React.render(React.createElement(MainApp, { imgPath: queryObj.path }), 
-              document.getElementById('main-app'));
+      return React.render(React.createElement(MainApp, { imgPath: queryObj.path }), 
+               document.getElementById('main-app'));
       break;
     }
     case constants.query.JSON_TYPE: {
       let jsonData = JSON.parse(fs.readFileSync(queryObj.path)),
           imgPath = jsonData.filepath,
           figureInfo = jsonData.objects;
-        React.render(React.createElement(MainApp, { imgPath, figureInfo }), 
-                document.getElementById('main-app'));
+      return React.render(React.createElement(MainApp, { imgPath, figureInfo }), 
+               document.getElementById('main-app'));
       break;
     }
     case constants.query.JSON_ARRAY_TYPE: {
@@ -44,13 +44,13 @@ function renderPage() {
           imgPath = jsonData[figureIdx].filepath,
           figureInfo = jsonData[figureIdx].objects,
           imgList = jsonData;
-        React.render(React.createElement(MainApp, { imgPath, figureInfo, figureIdx, imgList }),
-                document.getElementById('main-app'));
+      return React.render(React.createElement(MainApp, { imgPath, figureInfo, figureIdx, imgList }),
+               document.getElementById('main-app'));
       break;
     }
     default:
-      React.render(React.createElement(MainApp), 
-              document.getElementById('main-app'));
+      return React.render(React.createElement(MainApp), 
+               document.getElementById('main-app'));
       break;
   }
 }

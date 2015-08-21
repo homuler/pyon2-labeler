@@ -9,7 +9,7 @@ export class CanvasPalette {
     this.r = (Math.min(this.canvas.height, this.canvas.width) - 10) / 2;
     this.selected = {
       point: null,
-      color: color
+      color: Object.assign({}, color)
     };
     this.drawHSLCircle();
     this.saveDrawingSurface();

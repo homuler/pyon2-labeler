@@ -99,7 +99,7 @@ export class VirtualCanvas {
         let currentFigure = this.state.currentFigure;
         currentFigure.figure = new Rectangle(
           point.x, point.y, 0, 0,
-          this.settings.stroke.color,
+          Object.assign({}, this.settings.stroke.color),
           this.settings.stroke.lineWidth);
         break;
 

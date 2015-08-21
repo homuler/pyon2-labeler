@@ -149,8 +149,9 @@ function colorPickerChange(color) {
   if (_canvasBag.canvas == null) {
     throw new Error('CanvasBag is not initialized yet.');
   }
-  _canvasBag.canvas.settings.stroke.color = color;
+  _canvasBag.canvas.settings.stroke.color = Object.assign({}, color);
   if (_canvasBag.canvas.state.currentFigure.figure) {
+    console.log('current figure');
     _canvasBag.canvas.state.currentFigure.figure.color = Object.assign({}, color);
   }
   redrawCanvas();

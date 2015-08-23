@@ -88,7 +88,9 @@ export class MainApp extends React.Component {
             <OutputViewer format={this.state.controller.format} 
               figures={firstRender || !this.state.canvas.state.figures
                    ? []
-                   : this.state.canvas.state.figures}
+                   : this.state.canvas.state.figures.map((f) => {
+                     return this.state.canvas.toRealSize(f);
+                   })}
               imgPath={firstRender || !this.state.canvas.state.backgroundImage 
                    ? null 
                    : this.state.canvas.state.backgroundImage.src} />

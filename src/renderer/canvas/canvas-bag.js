@@ -56,10 +56,28 @@ export class VirtualCanvas {
 
     this.offscreenCanvas.width = this.canvas.width;
     this.offscreenCanvas.height = this.canvas.height;
+    this.initDisplay(imgPath, figureInfo);
+  }
+
+  initDisplay(imgPath, figureInfo) {
     if (imgPath !== null) {
       this.setBackground(imgPath, () => {
         if (figureInfo !== null) {
-          this.state.figures = figureInfo.map(Rectangle.jsonToFigure);
+          this.state.figures = figureInfo.map((f) => {
+             let rect = Rectangle.jsonToFigure(f),
+                 rectSize = {
+                   left: rect.left, 
+                   top: rect.top, 
+                   width: rect.width, 
+                   height: rect.height  
+                 },
+                 converted = this.toCanvasSize(rectSize);
+             rect.left = converted.left;
+             rect.top = converted.top;
+             rect.width = converted.width;
+             rect.height = converted.height;
+             return rect;
+          });
           this.redrawAll();
         }
       });
@@ -76,19 +94,7 @@ export class VirtualCanvas {
     this.state.surfaceHistory = [];
     this.offscreenCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    if (imgPath !== null) {
-      this.setBackground(imgPath, () => {
-        if (figureInfo !== null) {
-          this.state.figures = figureInfo.map(Rectangle.jsonToFigure);
-          this.redrawAll();
-        }
-      });
-    } else {
-      this.showDefaultDisplay();
-    }
-    this.saveDrawingSurface();
-    this.drawVirtualSurface();
-    this.copyOffscreenToMain();
+    this.initDisplay(imgPath, figureInfo);
   }
 
   onMouseDown = (e) => {
@@ -234,10 +240,7 @@ export class VirtualCanvas {
       0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
 
-  getRealFigureSize() {
-    if (this.state.currentFigure.figure === null) {
-      return null;
-    }
+  calcCanvasRealRatio() {
     let rawSize = this.state.backgroundImage ?
         { 
           width: this.state.backgroundImage.width,
@@ -252,12 +255,42 @@ export class VirtualCanvas {
           w: rawSize.width / baseSize.width,
           h: rawSize.height / baseSize.height
         };
+
+    return ratio;
+  }
+
+  toCanvasSize(figure = null) {
+    if (figure === null || figure === undefined) {
+      return null;
+    }
+
+    let ratio = this.calcCanvasRealRatio();
+
     return {
-      left: this.state.currentFigure.figure.left * ratio.w,
-      top: this.state.currentFigure.figure.top * ratio.h,
-      width: this.state.currentFigure.figure.width * ratio.w,
-      height: this.state.currentFigure.figure.height * ratio.h
+      left: figure.left / ratio.w,
+      top: figure.top / ratio.h,
+      width: figure.width / ratio.w,
+      height: figure.height / ratio.h
     };
+  }
+
+  toRealSize(figure = null) {
+    if (figure === null || figure === undefined) {
+      return null;
+    }
+
+    let ratio = this.calcCanvasRealRatio();
+
+    return {
+      left: figure.left * ratio.w,
+      top: figure.top * ratio.h,
+      width: figure.width * ratio.w,
+      height: figure.height * ratio.h
+    };
+  }
+
+  getRealFigureSize() {
+    return this.toRealSize(this.state.currentFigure.figure);
   }
 
   getCurrentHSLA() {

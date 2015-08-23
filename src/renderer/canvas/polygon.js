@@ -22,12 +22,14 @@ export class Rectangle {
   }
 
   static jsonToFigure(json) {
-    return new Rectangle(json.boundingBox.xmin,
+    let rect = new Rectangle(json.boundingBox.xmin,
             json.boundingBox.ymin,
             json.boundingBox.xmax - json.boundingBox.xmin,
             json.boundingBox.ymax - json.boundingBox.ymin,
             json.color,
             json.lineWidth);
+    rect.label = json.label || null;
+    return rect;
   }
 
   createPath(ctx) {

@@ -163,7 +163,7 @@ export class OutputViewer extends React.Component {
     }
     labelList.forEach((json) => {
       if (json.filepath && json.filepath !== labelData.filepath) {
-          newLabelList.push(json);
+        newLabelList.push(json);
       } 
     }, []);
 

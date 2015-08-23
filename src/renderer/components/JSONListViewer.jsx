@@ -45,19 +45,18 @@ class JSONListViewer extends React.Component {
   }
 
   genClickImageListener(idx) {
-     return (e) => {
-       let jsonData = this.props.imgList[idx];
-       if (jsonData !== undefined) {
-         CanvasActions.selectCanvasImage({
-           figureIdx: idx
-         });
-         console.log('reset canvas');
-         CanvasActions.resetCanvas({
-           imgPath: jsonData.filepath,
-           figureInfo: jsonData.objects
-         });
-       }
-     }
+    return (e) => {
+      let jsonData = this.props.imgList[idx];
+      if (jsonData !== undefined) {
+        CanvasActions.selectCanvasImage({
+          figureIdx: idx
+        });
+        CanvasActions.resetCanvas({
+          imgPath: jsonData.filepath,
+          figureInfo: jsonData.objects
+        });
+      }
+    }
   }
 
   _onClickInc = (e) => {

@@ -64,19 +64,19 @@ export class VirtualCanvas {
       this.setBackground(imgPath, () => {
         if (figureInfo !== null) {
           this.state.figures = figureInfo.map((f) => {
-             let rect = Rectangle.jsonToFigure(f),
-                 rectSize = {
-                   left: rect.left, 
-                   top: rect.top, 
-                   width: rect.width, 
-                   height: rect.height  
-                 },
-                 converted = this.toCanvasSize(rectSize);
-             rect.left = converted.left;
-             rect.top = converted.top;
-             rect.width = converted.width;
-             rect.height = converted.height;
-             return rect;
+            let rect = Rectangle.jsonToFigure(f),
+                rectSize = {
+                  left: rect.left, 
+                  top: rect.top, 
+                  width: rect.width, 
+                  height: rect.height  
+                },
+                converted = this.toCanvasSize(rectSize);
+            rect.left = converted.left;
+            rect.top = converted.top;
+            rect.width = converted.width;
+            rect.height = converted.height;
+            return rect;
           });
           this.redrawAll();
         }
@@ -311,13 +311,13 @@ export class VirtualCanvas {
   }
 
   calcImageSizeOnCanvas() {
-    let pos = {
+    let image = this.state.backgroundImage ? this.state.backgroundImage : this.canvas,
+        pos = {
           x: 0, 
           y: 0,
           width: +this.canvas.width,
           height: +this.canvas.height
-        },
-        image = this.state.backgroundImage ? this.state.backgroundImage : this.canvas;
+        };
     if (9 * image.width >= 16 * image.height) {
       pos.height = this.canvas.width * image.height / image.width;
     } else {

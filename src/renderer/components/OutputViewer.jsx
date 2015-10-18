@@ -150,7 +150,7 @@ export class OutputViewer extends React.Component {
   }
 
   writeJSON(filepath) {
-    fs.writeFile(filepath, this.genData());
+    fs.writeFile(filepath, "[" + this.genData() + "]");
   }
 
   appendJSON(filepath) {
@@ -158,9 +158,6 @@ export class OutputViewer extends React.Component {
         labelList = JSON.parse(fs.readFileSync(filepath)),
         newLabelList = [labelData];
           
-    if (labelList.length === undefined) {
-      labelList = [labelList];
-    }
     labelList.forEach((json) => {
       if (json.filepath && json.filepath !== labelData.filepath) {
         newLabelList.push(json);

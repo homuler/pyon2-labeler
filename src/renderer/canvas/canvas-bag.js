@@ -65,17 +65,12 @@ export class VirtualCanvas {
         if (figureInfo !== null) {
           this.state.figures = figureInfo.map((f) => {
             let rect = Rectangle.jsonToFigure(f),
-                rectSize = {
-                  left: rect.left, 
-                  top: rect.top, 
-                  width: rect.width, 
-                  height: rect.height  
-                },
-                converted = this.toCanvasSize(rectSize);
-            rect.left = converted.left;
-            rect.top = converted.top;
-            rect.width = converted.width;
-            rect.height = converted.height;
+                rectSize = this.toCanvasSize(rect);
+
+            rect.left = rectSize.left;
+            rect.top = rectSize.top;
+            rect.width = rectSize.width;
+            rect.height = rectSize.height;
             return rect;
           });
           this.redrawAll();
@@ -265,7 +260,7 @@ export class VirtualCanvas {
     }
 
     let ratio = this.calcCanvasRealRatio();
-
+    
     return {
       left: figure.left / ratio.w,
       top: figure.top / ratio.h,

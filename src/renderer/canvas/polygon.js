@@ -178,7 +178,9 @@ export class Rectangle {
     ctx.font = '20px Palatino';
 
     let rect = this.getLabelRect(ctx);
-    ctx.fillStyle = util.hslaToString(this.color);
+    if (this.color !== null) {
+      ctx.fillStyle = util.hslaToString(this.color);
+    }
     ctx.fillRect(rect.left, rect.top, rect.width, rect.height);
     ctx.fillStyle = 'white';
     if (edit) {

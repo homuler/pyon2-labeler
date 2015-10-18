@@ -89,7 +89,13 @@ export class MainApp extends React.Component {
               figures={firstRender || !this.state.canvas.state.figures
                    ? []
                    : this.state.canvas.state.figures.map((f) => {
-                     return this.state.canvas.toRealSize(f);
+                     let realSize = this.state.canvas.toRealSize(f);
+
+                     return Object.assign(realSize, {
+                       color: f.color,
+                       lineWidth: f.lineWidth,
+                       label: f.label
+                     });
                    })}
               imgPath={firstRender || !this.state.canvas.state.backgroundImage 
                    ? null 
